@@ -20,4 +20,5 @@
 
   And then what is a not contiguous memory ?, lets take the example of a chained list, a chained list use pointers to link each other, but the pointers are     not most of the time near each other, this mean that we have a storage that store some values, but the value's addresses are not in the same place.
 
+  https://www.geeksforgeeks.org/how-to-implement-our-own-vector-class-in-c/
 #
