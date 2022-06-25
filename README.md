@@ -22,4 +22,12 @@
 
   https://www.geeksforgeeks.org/how-to-implement-our-own-vector-class-in-c/
   https://cplusplus.com/reference/vector/vector/?kw=vector
+  
+  # std::allocator 
+    allocator is a class that is used by STL standard containers, it used to allocate memory>.
+    But in c++ we have the new and delete function, so what is allocator usefull for ?
+    allocator doesn't replace new and delete, allocator is usefull to allocate memory separately from the constructor and destructor.
+    Because in fact, new calls the constructor when it allow an object, and delete call his destructor, but in the our case, where we are building a containers, we dont wanna do it that way.
+
+  #
 #
