@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:26:47 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/06/24 18:30:44 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/01 17:06:27 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,9 @@ int main(void)
     std::cout << "size" << v1.size() << std::endl;
     std::cout << "max_size" << v1.max_size() << std::endl;
     std::cout << "capacity" << v1.capacity() << std::endl;
+
+    template <class T>
+    void print(void){
+        T::valuetype
+    }
 }

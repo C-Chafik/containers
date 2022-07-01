@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 14:01:19 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/06/30 15:26:32 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/01 16:32:10 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ namespace ft
             //Vectorator & operator==( Vectorator const & src ) { return this->ptr == src.ptr; };
 
 
-            
             //! Arithmetic Besoin d'aide pour comprendre.
             //Vectorator operator+( Vectorator const & src ) const {return _ptr + src._ptr};
             //Vectorator operator-( Vectorator const & src ) const {return _ptr - src._ptr};

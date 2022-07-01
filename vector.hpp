@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/06/27 14:12:23 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/01 17:19:36 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@
 
 namespace ft
 {
-    class   vector
+    template < class T, class Alloc = std::allocator<T> >
+    class vector
     {
+        typedef T value_type; //? Aliasing the type T, to value_type 
+        typedef T* pointer; //? Aliasing the pointer to T, to pointer.
+
+        T::value_type content =;
         
     };
 }
