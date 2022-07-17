@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <vector>
+/*#include <vector>
 #include <iostream>
 
 int main(void)
-{
+}
     std::vector<int> v1;
 
     std::cout << "size" << v1.size() << std::endl;
@@ -25,4 +25,14 @@ int main(void)
     void print(void){
         T::valuetype
     }
+}*/
+
+#include "vector.hpp"
+
+int main( void )
+{
+    ft::vector<int> v1(100, 42);
+    return 0;
 }
+
+
