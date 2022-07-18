@@ -1,29 +1,34 @@
-SRCS = main.cpp
+FT		= main.cpp
 
-OBJS = ${SRCS:.cpp=.o}
+STL		= main.cpp
 
-RM = rm -rf
+RM 			= rm -f
 
-CC = c++
+FLAGS 		= -Wall -Wextra -Werror -g -std=c++98 -O0
 
-FLAGS = -Wall -Wextra -Werror -std=c++98
+NAME		= ft_vector
 
-NAME = Vector
+STL_NAME	= std_vector
 
-.cpp.o:
-		${CC} ${FLAGS} -c $< -o ${<:.cpp=.o}
+CC 			= c++
 
-all: $(NAME)
+all:		$(NAME)
 
-$(NAME): $(OBJS)
-		${CC} ${FLAGS} $(OBJS) -o $(NAME)
+$(NAME):
+					${CC} ${FLAGS} ${FT} -o ${NAME} -D FT
+					${CC} ${FLAGS} ${STL} -o ${STL_NAME} -D STL
 
 clean:
-	$(RM) $(OBJS)
+					
 
-fclean: clean
-	$(RM) $(NAME)
+fclean:		clean
+					${RM} ${NAME}
+					${RM} ${STL_NAME}
 
-re: fclean all
+re:			fclean
+			make all
+					
 
-.PHONY: all clean fclean re
+.SILENT:
+
+.PHONY: all clean fclean re bonus

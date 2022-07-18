@@ -6,9 +6,15 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:26:47 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/01 17:06:27 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/18 21:56:32 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifdef STL
+    #define NM std
+#else
+    #define NM ft
+#endif
 
 /*#include <vector>
 #include <iostream>
@@ -27,11 +33,16 @@ int main(void)
     }
 }*/
 
+#include "external_functions/is_integral.hpp"
+#include "external_functions/equal.hpp"
+#include "external_functions/enable_if.hpp"
 #include "vector.hpp"
+#include <vector>
 
 int main( void )
 {
-    ft::vector<int> v1(100, 42);
+    NM::vector<int> v1(100, 42);
+
     return 0;
 }
 
