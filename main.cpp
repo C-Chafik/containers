@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:26:47 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/18 21:56:32 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/19 17:41:48 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,36 @@ int main(void)
 #include <vector>
 
 int main( void )
-{
-    NM::vector<int> v1(100, 42);
+{   
+    /*std::vector<int> v1(100, 42);
+
+    std::vector<int>::iterator it = v1.begin();
+
+    std::vector<int>::iterator ite = v1.end();*/
+
+    //(void)it; (void)ite;
+
+    
+    NM::vector<int> v2(10, 42);
+
+    std::cout << "Size = " << v2.size();
+    //std::cout << "Vector's max size " << v2.max_size() << std::endl;
+    std::cout << " Capacity = " << v2.capacity() << std::endl;
+    //std::cout << "Is vector empty ? " << v2.empty() << std::endl;
+    //NM::vector<int> v2(100, 42);
+
+    v2.resize(5);
+    v2.resize(5);
+
+    v2.resize(20);
+
+    v2.resize(5);
+
+    v2.resize(5);
+
+    v2.resize(5);
+
+    
 
     return 0;
 }

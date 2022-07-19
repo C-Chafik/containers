@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/18 23:17:01 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/19 17:40:50 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ namespace ft
     {
         public:   
             typedef T value_type; //? Aliasing the type T, to value_type
-            //typedef T* ptr;
             typedef Alloc allocator_type;
             typedef typename allocator_type::difference_type difference_type;
             typedef typename allocator_type::size_type size_type;
@@ -33,53 +32,138 @@ namespace ft
 
             explicit vector( const allocator_type & alloc = allocator_type() ) : _start(NULL), _end(NULL), _alloc(alloc) {}
 
-            explicit vector( size_type n, const value_type & val, const allocator_type & alloc = allocator_type() ) : _start(NULL), _end(NULL), _alloc(alloc)
+            template <class InputIterator>
+            explicit vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _start(NULL), _end(NULL), _endc(NULL), _alloc(alloc)
+            {
+                assign(first, last);
+            }
+
+            explicit vector( size_type n, const value_type & val, const allocator_type & alloc = allocator_type() ) : _start(NULL), _end(NULL), _endc(NULL), _alloc(alloc)
             {
                 assign(n, val);
             }
 
             ~vector( void ) { _alloc.deallocate(_start, _start - _end); }
 
-            template <class InputIterator>
-            void assign (InputIterator first, InputIterator last)
+            template < class InputIterator >
+            void assign (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last )
 			{
-				//clear();
-                //if (n > capacity())
-                    //reserve();
+				clear();
+                if (std::distance(first, last) > capacity())
+                    reserve(std::distance(first, last));
 				size_type tmp = 0;
 				
-				_start = _alloc.allocate(std::distance(first, last));
 				for ( ; first != last ; first++ )
-				{
-					*(_start + tmp) = *first;
+				{					
+                    *(_start + tmp) = *first;
 					tmp++;
 				}
 				_end = _start + tmp;
 			}
-
+            
             void assign( size_type n, const value_type & val )
             {
-                //clear();
-                //if (n > capacity())
-                    //reserve();
+                clear();
+                if (n > capacity())
+                    reserve(n);
                 size_type tmp = 0;
                 
-                _start = _alloc.allocate(n);
                 for ( ; tmp < n ; tmp++ )
                 {
                     *(_start + tmp) = val;
                 }
                 _end = _start + tmp;
             }
+            
+            //! Modifier
+            void clear()
+            {
+                size_type tmp = 0;
 
-			void push_back( const value_type& val )
+                for ( ; _start + tmp != _end ; tmp++)
+                {
+                    _alloc.destroy(_start + tmp);
+                }
+            }
+
+
+            //! Capacity
+
+            void resize (size_type n, value_type val = value_type())
+            {
+                if (n > capacity())
+                    reserve(n);
+                if (n < size())
+                {
+                    pointer tmp = _end;
+
+                    for ( ; n < size() ; tmp--, n++)
+                    {
+                        _alloc.destroy(tmp);
+                    }
+                    _end = tmp;
+                }
+                else if (n > size())
+                {
+                    pointer tmp = _end;
+                    size_type i = size();
+                    for ( ; i < n ; i++, tmp++ )
+                    {
+                        *tmp = val;
+                    }
+                    _end = tmp;
+                }
+                std::cout << "new capacity = " << capacity() << " new size = " << size() << std::endl;
+            }
+            
+            void reserve (size_type n)
+            {
+                if (n > capacity())
+                {
+                    //std::cout << "reserving" << std::endl;
+                    pointer     tmp;
+                    size_type   i = 0;
+                    
+                    tmp = _alloc.allocate(sizeof(value_type) * n);
+                    for ( ; _start + i != _end ; i++ )
+                    {
+                        *(tmp + i) = *_start + i;
+                    }
+                    _end = tmp + i;
+                    _endc = tmp + n;
+                    _start = tmp;
+                }
+            }
+            
+            bool empty() const
+            {
+                return (_end - _start) == 0;   
+            }
+            
+            size_type capacity() const
+            {
+                return _endc - _start;
+            }
+            
+            size_type size() const
+            {
+                return _end - _start;
+            }
+
+            size_type max_size() const
+            {
+                return _alloc.max_size();
+            }
+
+			/*void push_back( const value_type& val )
 			{
 				
-			}
+			}*/
 
         private:
             pointer _start;
             pointer _end;
+            pointer _endc;
             allocator_type _alloc;
     };
 }
