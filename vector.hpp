@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/19 17:40:50 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/19 20:05:37 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,11 @@ namespace ft
 
             ~vector( void ) { _alloc.deallocate(_start, _start - _end); }
 
+            
+            //! Modifier
+            
             template < class InputIterator >
-            void assign (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last )
+            void assign ( InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last )
 			{
 				clear();
                 if (std::distance(first, last) > capacity())
@@ -75,8 +78,7 @@ namespace ft
                 _end = _start + tmp;
             }
             
-            //! Modifier
-            void clear()
+            void clear( )
             {
                 size_type tmp = 0;
 
@@ -84,6 +86,23 @@ namespace ft
                 {
                     _alloc.destroy(_start + tmp);
                 }
+            }
+
+            void push_back ( const value_type & val )
+            {
+                if (capacity() == 0)
+                    reserve(1);
+                if ( size() + 1 > capacity() )
+                    reserve(capacity() * 2);
+               _end++;
+               *_end = val;
+            }
+
+            void pop_back( )
+            {
+                if (!empty())
+                    _alloc.destroy(_end);
+                _end--;
             }
 
 
@@ -120,15 +139,16 @@ namespace ft
             {
                 if (n > capacity())
                 {
-                    //std::cout << "reserving" << std::endl;
                     pointer     tmp;
                     size_type   i = 0;
+                    
                     
                     tmp = _alloc.allocate(sizeof(value_type) * n);
                     for ( ; _start + i != _end ; i++ )
                     {
                         *(tmp + i) = *_start + i;
                     }
+                    _alloc.deallocate(_start, size());
                     _end = tmp + i;
                     _endc = tmp + n;
                     _start = tmp;
@@ -155,10 +175,34 @@ namespace ft
                 return _alloc.max_size();
             }
 
-			/*void push_back( const value_type& val )
-			{
-				
-			}*/
+			//! Element access
+
+            reference operator[] ( size_type n ) { return *(_start + n); }
+
+            const_reference operator[] (size_type n) const { return *(_start + n); }
+
+            reference at ( size_type n ) 
+            {
+                if (n >= size())
+                    throw(std::out_of_range("at")); 
+                return *(_start + n); 
+            }
+
+            const_reference at ( size_type n)  const
+            {
+                if (n >= size())
+                    throw(std::out_of_range("at")); 
+                return *(_start + n);
+            }
+
+            reference front( ) { return *_start; }
+
+            const_reference front( ) const { return *_start; }
+
+            reference back() { return *(_end - 1); }
+
+            const_reference back() const { return *(_end - 1); }
+            
 
         private:
             pointer _start;
