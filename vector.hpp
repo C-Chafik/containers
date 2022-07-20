@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/19 20:05:37 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/21 00:19:15 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@ namespace ft
     class vector
     {
         public:   
-            typedef T value_type; //? Aliasing the type T, to value_type
-            typedef Alloc allocator_type;
-            typedef typename allocator_type::difference_type difference_type;
-            typedef typename allocator_type::size_type size_type;
-            typedef typename allocator_type::reference reference;
-            typedef typename allocator_type::const_reference const_reference;
-            typedef typename allocator_type::pointer pointer;
-            typedef typename allocator_type::const_pointer const_pointer;
+            typedef             T value_type; //? Aliasing the type T, to value_type
+            typedef             Alloc allocator_type;
+            typedef typename    allocator_type::difference_type difference_type;
+            typedef typename    allocator_type::size_type size_type;
+            typedef typename    allocator_type::reference reference;
+            typedef typename    allocator_type::const_reference const_reference;
+            typedef typename    allocator_type::pointer pointer;
+            typedef typename    allocator_type::const_pointer const_pointer;
+            typedef T *         iterator;
+            typedef const T *   const_iterator;
 
             explicit vector( const allocator_type & alloc = allocator_type() ) : _start(NULL), _end(NULL), _alloc(alloc) {}
 
@@ -46,6 +48,28 @@ namespace ft
             ~vector( void ) { _alloc.deallocate(_start, _start - _end); }
 
             
+            //! Iterators
+
+            iterator begin()
+            {
+                return _start;
+            }
+
+            const_iterator begin() const
+            {
+                return _start;
+            }
+
+            iterator end()
+            {
+                return _end;
+            }
+
+            const_iterator end() const
+            {
+                return _end;
+            }
+
             //! Modifier
             
             template < class InputIterator >
@@ -105,7 +129,24 @@ namespace ft
                 _end--;
             }
 
-
+            iterator insert( iterator position, const value_type& val )
+            {
+                difference_type sp = position - _start;
+                if (capacity() == 0)
+                    reserve(1);
+                else if (size() + 1 > capacity())
+                    reserve(capacity() * 2);
+                
+                position = _start + sp;
+                for ( pointer tmp_end = _end ; tmp_end != position; tmp_end-- )
+                {
+                    *tmp_end = *(tmp_end - 1); 
+                }
+                *position = val;
+                _end = _end + 1;
+                return position;
+            }
+            
             //! Capacity
 
             void resize (size_type n, value_type val = value_type())
@@ -146,7 +187,7 @@ namespace ft
                     tmp = _alloc.allocate(sizeof(value_type) * n);
                     for ( ; _start + i != _end ; i++ )
                     {
-                        *(tmp + i) = *_start + i;
+                        *(tmp + i) = *(_start + i);
                     }
                     _alloc.deallocate(_start, size());
                     _end = tmp + i;
@@ -202,6 +243,10 @@ namespace ft
             reference back() { return *(_end - 1); }
 
             const_reference back() const { return *(_end - 1); }
+
+            //! Allocator
+            
+            allocator_type get_allocator() const { allocator_type tmp; return tmp; }
             
 
         private:
