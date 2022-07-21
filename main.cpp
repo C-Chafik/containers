@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:26:47 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/21 00:02:43 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/21 13:45:39 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ int main( void )
         std::cout << RED << "V1 SIZE : " << v1.size() << std::endl;
         std::cout << RED << "V1 CAPACITY : " << v1.capacity() << std::endl;
 
-        v1.insert(it + 3, 6);
+        v1.insert(it, 7, 6);
 
         for ( NM::vector<int>::iterator it7 = v1.begin(); it7 != v1.end() ; it7++ )
         {
@@ -253,7 +253,7 @@ int main( void )
 
         NM::vector<int>::iterator it2 = v1.begin();
 
-        v1.insert(it2, 6);
+        v1.insert(it2 + 3, 6);
 
         for ( NM::vector<int>::iterator it7 = v1.begin(); it7 != v1.end() ; it7++ )
         {

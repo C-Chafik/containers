@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/21 00:19:15 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/21 16:35:09 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,32 @@ namespace ft
                 *position = val;
                 _end = _end + 1;
                 return position;
+            }
+
+            void insert( iterator position, size_type n, const value_type & val )
+            {
+                difference_type sp = position - _start;
+                
+                if (capacity() == 0)
+                    reserve(n);
+                else if (size() + n > capacity() * 2)
+                    reserve(capacity() + n);
+                else if (size() + n > capacity())
+                    reserve(capacity() * 2);
+                
+                position = _start + sp;
+                for ( size_type i = 0 ; i < n ; i ++ )
+                {
+                    for ( pointer tmp_end = _end ; tmp_end != position; tmp_end-- )
+                    {
+                        *tmp_end = *(tmp_end - 1);                   
+                    }
+                    _end = _end + 1;
+                }
+                for ( size_type i = 0 ; i < n ; i++ )
+                {
+                    *(position + i) = val;
+                }
             }
             
             //! Capacity
