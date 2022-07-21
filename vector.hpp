@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/21 16:35:09 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/21 20:42:20 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 
 # include <iostream>
 # include <memory>
+
+# include "external_functions/is_integral.hpp"
+# include "external_functions/equal.hpp"
+# include "external_functions/enable_if.hpp"
+# include "iterators/iterator_traits.hpp"
+# include "iterators/reverse_iterator.hpp"
+
 namespace ft
 {
     template < class T, class Alloc = std::allocator<T> >
@@ -31,6 +38,8 @@ namespace ft
             typedef typename    allocator_type::const_pointer const_pointer;
             typedef T *         iterator;
             typedef const T *   const_iterator;
+            typedef typename    ft::reverse_iterator<iterator> reverse_iterator;
+            typedef typename    ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
             explicit vector( const allocator_type & alloc = allocator_type() ) : _start(NULL), _end(NULL), _alloc(alloc) {}
 
@@ -45,29 +54,75 @@ namespace ft
                 assign(n, val);
             }
 
+            vector( const vector & x )
+            {
+                *this = x;
+            }
+
             ~vector( void ) { _alloc.deallocate(_start, _start - _end); }
+
+            //! Operator =
+
+
+            vector & operator=( const vector & x )
+            {
+                size_type i = 0;
+                
+                reserve(x.size());
+                clear();
+                
+                for ( ; i < x.size() ; i++ )
+                {
+                    *(_start + i) = *(x._start + i);
+                }
+                _end = _start + i;
+                _alloc = x._alloc;
+                return *this;
+            }
 
             
             //! Iterators
 
-            iterator begin()
+            iterator begin( void )
             {
                 return _start;
             }
 
-            const_iterator begin() const
+            const_iterator begin( void ) const
             {
                 return _start;
             }
 
-            iterator end()
+            iterator end( void )
             {
                 return _end;
             }
 
-            const_iterator end() const
+            const_iterator end( void ) const
             {
                 return _end;
+            }
+
+            //! Reverse Iterators
+
+            reverse_iterator rbegin( void )
+            {
+                return _end;
+            }
+
+            const_reverse_iterator rbegin( void ) const
+            {
+                return _end;
+            }
+
+            reverse_iterator rend( void )
+            {
+                return _start;
+            }
+
+            const_reverse_iterator rend( void ) const
+            {
+                return _start;
             }
 
             //! Modifier
@@ -159,18 +214,64 @@ namespace ft
                     reserve(capacity() * 2);
                 
                 position = _start + sp;
-                for ( size_type i = 0 ; i < n ; i ++ )
+                
+                for ( pointer tmp_end = _end - 1; tmp_end != position - 1; tmp_end-- )
                 {
-                    for ( pointer tmp_end = _end ; tmp_end != position; tmp_end-- )
-                    {
-                        *tmp_end = *(tmp_end - 1);                   
-                    }
-                    _end = _end + 1;
+                    *(tmp_end + n) = *(tmp_end);                   
                 }
                 for ( size_type i = 0 ; i < n ; i++ )
                 {
                     *(position + i) = val;
                 }
+                _end = _end + n;
+            }
+
+            template <class InputIterator>
+            void insert (iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last )
+            {
+                difference_type n = last - first; (void)n;
+                difference_type sp = position - _start;(void)sp;
+
+                if (capacity() == 0)
+                    reserve(std::distance(first, last));
+                else if (size() + std::distance(first, last) > capacity() * 2)
+                    reserve(capacity() + std::distance(first, last));
+                else if (size() + std::distance(first, last) > capacity())
+                    reserve(capacity() * 2);
+                
+                position = _start + sp;
+                for ( pointer tmp_end = _end - 1; tmp_end != position - 1; tmp_end-- )
+                {
+                    *(tmp_end + std::distance(first, last)) = *(tmp_end);                   
+                }
+                /*for ( ; first != last + 1 ; first++)
+                {
+                    *(position) = *first;
+                }*/
+                for ( difference_type i = 0 ; i < std::distance(first, last) ; i++)
+                {
+                    *(position + i) = *(first + i);
+                }
+                _end = _end + std::distance(first, last);
+            }
+
+            //! Swap
+
+            void swap( vector & x )
+            {
+                pointer tmp;
+
+                tmp = _start;
+                _start = x._start;
+                x._start = tmp;
+
+                tmp = _end;
+                _end = x._end;
+                x._end = tmp;
+
+                tmp = _endc;
+                _endc = x._endc;
+                x._endc = tmp;
             }
             
             //! Capacity
@@ -202,7 +303,7 @@ namespace ft
                 std::cout << "new capacity = " << capacity() << " new size = " << size() << std::endl;
             }
             
-            void reserve (size_type n)
+            void reserve( size_type n )
             {
                 if (n > capacity())
                 {
@@ -229,11 +330,15 @@ namespace ft
             
             size_type capacity() const
             {
+                if (!_start)
+                    return 0;
                 return _endc - _start;
             }
             
             size_type size() const
             {
+                if (!_start)
+                    return 0;
                 return _end - _start;
             }
 
@@ -281,6 +386,51 @@ namespace ft
             pointer _endc;
             allocator_type _alloc;
     };
+
+    //! Relational Operators
+
+    template <class T, class Alloc>
+    bool operator==( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
+    {
+        return 
+    }
+
+    template <class T, class Alloc>
+    bool operator!=( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
+    {
+        
+    }
+
+    template <class T, class Alloc>
+    bool operator< ( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
+    {
+        
+    }
+
+    template <class T, class Alloc>
+    bool operator<=( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
+    {
+        
+    }
+
+    template <class T, class Alloc>
+    bool operator>( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
+    {
+        
+    }
+
+    template <class T, class Alloc>
+    bool operator>=( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
+    {
+        
+    }
+
+    //! Non-Member Swap
+    template <class T, class Alloc>
+    void swap( vector<T,Alloc> & x, vector<T,Alloc> & y )
+    {
+        x.swap(y); 
+    }
 }
 
 #endif
