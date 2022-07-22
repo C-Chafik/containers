@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:26:47 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/21 20:34:47 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/22 17:19:06 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,7 @@ int main( void )
         }
     }*/
 
-    { //! Non-Member Swap
+    /*{ //! Non-Member Swap
         NM::vector<int> v1(10, 1);
         NM::vector<int> v2(10, 2);
 
@@ -324,6 +324,44 @@ int main( void )
             //std::cout << "EMPTY V2 " << std::endl;
             std::cout << RED << *it << " ";
         }
+    }*/
+
+    { //! Relational Operators
+        NM::vector<int> v1(10, 42);
+        
+        NM::vector<int> v2(10, 42);
+
+        if ( v1 == v2 )
+            std::cout << GREEN << "EQUAL TRUE" << std::endl;
+        else
+            std::cout <<  RED << "EQUAL FALSE" << std::endl;
+        
+        if ( v1 != v2 )
+            std::cout << GREEN << "EQUAL TRUE" << std::endl;
+        else
+            std::cout <<  RED << "EQUAL FALSE" << std::endl;
+        
+        if ( v1 < v2 )
+            std::cout << GREEN << "EQUAL TRUE" << std::endl;
+        else
+            std::cout <<  RED << "EQUAL FALSE" << std::endl;
+        
+        if ( v1 <= v2 )
+            std::cout << GREEN << "EQUAL TRUE" << std::endl;
+        else
+            std::cout <<  RED << "EQUAL FALSE" << std::endl;
+        
+        if ( v1 > v2 )
+            std::cout << GREEN << "EQUAL TRUE" << std::endl;
+        else
+            std::cout <<  RED << "EQUAL FALSE" << std::endl;
+        
+        if ( v1 >= v2 )
+            std::cout << GREEN << "EQUAL TRUE" << std::endl;
+        else
+            std::cout <<  RED << "EQUAL FALSE" << std::endl;
+
+            
     }
     
 

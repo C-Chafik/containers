@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/21 20:42:20 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/22 17:18:38 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <memory>
 
 # include "external_functions/is_integral.hpp"
+# include "external_functions/lexicographical_compare.hpp"
 # include "external_functions/equal.hpp"
 # include "external_functions/enable_if.hpp"
 # include "iterators/iterator_traits.hpp"
@@ -392,37 +393,37 @@ namespace ft
     template <class T, class Alloc>
     bool operator==( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
-        return 
+        return ( lhs.size() == rhs.size() && equal(lhs.begin(), lhs.end(), rhs.begin()) );
     }
 
     template <class T, class Alloc>
     bool operator!=( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
-        
+        return !(lhs == rhs);
     }
 
     template <class T, class Alloc>
-    bool operator< ( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
+    bool operator<( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
-        
+        return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
     }
 
     template <class T, class Alloc>
     bool operator<=( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
-        
+        return !(rhs < lhs);
     }
 
     template <class T, class Alloc>
     bool operator>( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
-        
+        return rhs < lhs;
     }
 
     template <class T, class Alloc>
     bool operator>=( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
-        
+        return !(lhs < rhs);
     }
 
     //! Non-Member Swap
