@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:26:47 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/22 17:19:06 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/26 19:54:19 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,7 +326,7 @@ int main( void )
         }
     }*/
 
-    { //! Relational Operators
+    /*{ //! Relational Operators
         NM::vector<int> v1(10, 42);
         
         NM::vector<int> v2(10, 42);
@@ -362,8 +362,64 @@ int main( void )
             std::cout <<  RED << "EQUAL FALSE" << std::endl;
 
             
+    }*/
+
+    /*{ //! Erase single element
+        NM::vector<int> v1(10, 42);
+        int i = 0;
+
+        NM::vector<int>::iterator it = v1.begin();
+        for ( ; it != v1.end() ; it++ )
+        {
+            *it = i *3;
+            i++;
+        }
+
+        for (it = v1.begin() ; it != v1.end() ; it++ )
+        {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
+
+        it = v1.begin();
+        v1.erase(it + 3);
+
+        for ( it = v1.begin() ; it != v1.end() ; it++ )
+        {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
+        
+    }*/
+
+    { //! Erase Range element
+        NM::vector<int> v1(10, 42);
+        int i = 0;
+
+        NM::vector<int>::iterator it = v1.begin();
+        for ( ; it != v1.end() ; it++ )
+        {
+            *it = i *3;
+            i++;
+        }
+
+        for (it = v1.begin() ; it != v1.end() ; it++ )
+        {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
+
+        it = v1.begin();
+        v1.erase(it, it + 3);
+
+        for ( it = v1.begin() ; it != v1.end() ; it++ )
+        {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
+        
     }
-    
+
 
     return 0;
 }

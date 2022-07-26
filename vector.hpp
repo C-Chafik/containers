@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/22 17:18:38 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/26 22:33:06 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ namespace ft
                 assign(first, last);
             }
 
-            explicit vector( size_type n, const value_type & val, const allocator_type & alloc = allocator_type() ) : _start(NULL), _end(NULL), _endc(NULL), _alloc(alloc)
+            explicit vector( size_type n, const value_type & val = value_type(), const allocator_type & alloc = allocator_type() ) : _start(NULL), _end(NULL), _endc(NULL), _alloc(alloc)
             {
                 assign(n, val);
             }
 
-            vector( const vector & x )
+            vector( const vector & x ) : _start(NULL), _end(NULL), _endc(NULL)
             {
                 *this = x;
             }
@@ -108,22 +108,22 @@ namespace ft
 
             reverse_iterator rbegin( void )
             {
-                return _end;
+                return reverse_iterator(_end);
             }
 
             const_reverse_iterator rbegin( void ) const
             {
-                return _end;
+                return reverse_iterator(_end);
             }
 
             reverse_iterator rend( void )
             {
-                return _start;
+                return reverse_iterator(_start);
             }
 
             const_reverse_iterator rend( void ) const
             {
-                return _start;
+                return reverse_iterator(_start);
             }
 
             //! Modifier
@@ -131,9 +131,10 @@ namespace ft
             template < class InputIterator >
             void assign ( InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last )
 			{
+                size_type len = std::distance(first, last);
 				clear();
-                if (std::distance(first, last) > capacity())
-                    reserve(std::distance(first, last));
+                if (len > capacity())
+                    reserve(len);
 				size_type tmp = 0;
 				
 				for ( ; first != last ; first++ )
@@ -153,7 +154,7 @@ namespace ft
                 
                 for ( ; tmp < n ; tmp++ )
                 {
-                    *(_start + tmp) = val;
+                    _alloc.construct((_start + tmp), val);
                 }
                 _end = _start + tmp;
             }
@@ -161,11 +162,12 @@ namespace ft
             void clear( )
             {
                 size_type tmp = 0;
-
-                for ( ; _start + tmp != _end ; tmp++)
+                
+                for ( ; tmp < size() ; tmp++)
                 {
                     _alloc.destroy(_start + tmp);
                 }
+                _end = _end - tmp;
             }
 
             void push_back ( const value_type & val )
@@ -174,8 +176,8 @@ namespace ft
                     reserve(1);
                 if ( size() + 1 > capacity() )
                     reserve(capacity() * 2);
-               _end++;
                *_end = val;
+               _end++;
             }
 
             void pop_back( )
@@ -230,8 +232,8 @@ namespace ft
             template <class InputIterator>
             void insert (iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last )
             {
-                difference_type n = last - first; (void)n;
-                difference_type sp = position - _start;(void)sp;
+                difference_type n = std::distance(first, last);
+                difference_type sp = position - _start;
 
                 if (capacity() == 0)
                     reserve(std::distance(first, last));
@@ -245,15 +247,48 @@ namespace ft
                 {
                     *(tmp_end + std::distance(first, last)) = *(tmp_end);                   
                 }
-                /*for ( ; first != last + 1 ; first++)
+                for ( difference_type i = 0 ; i < n ; i++)
                 {
-                    *(position) = *first;
-                }*/
-                for ( difference_type i = 0 ; i < std::distance(first, last) ; i++)
-                {
-                    *(position + i) = *(first + i);
+                    *(position + i) = *(first++);
                 }
-                _end = _end + std::distance(first, last);
+                _end = _end + n;
+            }
+
+            //! Erase
+
+            iterator erase( iterator position )
+            {
+                difference_type sp = position - _start;
+                
+                position = _start + sp;
+                if (position)
+                    _alloc.destroy(position);
+                for ( pointer tmp = position + 1 ; tmp != _end ; tmp++)
+                {
+                    *(tmp - 1) = *tmp;
+                }
+                _end = _end - 1;
+                return position;
+            }
+
+            iterator erase( iterator first, iterator last )
+            {
+                difference_type len = std::distance(first, last);
+                
+                
+                pointer tmp_destroy = first;
+                for ( ; tmp_destroy != last ; tmp_destroy++ )
+                {
+                    _alloc.destroy(tmp_destroy);
+                }
+                pointer tmp_relocate = first;
+                for ( difference_type i = 0 ; _start + i != _end ; i++)
+                {
+                    *(tmp_relocate) = *(tmp_relocate + std::distance(first, last));
+                    tmp_relocate++;
+                }
+                _end = _end - len;
+                return first;
             }
 
             //! Swap
@@ -301,7 +336,6 @@ namespace ft
                     }
                     _end = tmp;
                 }
-                std::cout << "new capacity = " << capacity() << " new size = " << size() << std::endl;
             }
             
             void reserve( size_type n )
