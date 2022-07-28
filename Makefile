@@ -4,7 +4,7 @@ STL		= main.cpp
 
 RM 			= rm -f
 
-FLAGS 		= -Wall -Wextra -Werror -g -std=c++98 -O0
+FLAGS 		= -Wall -Wextra -Werror -g -std=c++98 -O0 #-fsanitize=address
 
 NAME		= ft_vector
 
