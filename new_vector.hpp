@@ -6,7 +6,7 @@
 /*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/29 01:38:52 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/29 00:42:40 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,28 +42,28 @@ namespace ft
             typedef typename    ft::reverse_iterator<iterator> reverse_iterator;
             typedef typename    ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
-            explicit vector( const allocator_type & alloc = allocator_type() ) : _start(NULL), _end(NULL), _endc(NULL), _alloc(alloc) {}
+            explicit vector( const allocator_type & alloc = allocator_type() ) : _ptr(NULL), _size(0), _capacity(0) _alloc(alloc) {}
 
             template <class InputIterator>
-            explicit vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _start(NULL), _end(NULL), _endc(NULL), _alloc(alloc)
+            explicit vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _ptr(NULL), _size(0), _capacity(std::distance(first, last)), _alloc(alloc)
             {
                 assign(first, last);
             }
 
-            explicit vector( size_type n, const value_type & val = value_type(), const allocator_type & alloc = allocator_type() ) : _start(NULL), _end(NULL), _endc(NULL), _alloc(alloc)
+            explicit vector( size_type n, const value_type & val = value_type(), const allocator_type & alloc = allocator_type() ) : _ptr(NULL), _size(n), _capacity(n), _alloc(alloc)
             {
                 assign(n, val);
             }
 
-            vector( const vector & x ) : _start(NULL), _end(NULL), _endc(NULL)
+            vector( const vector & x ) : _ptr(x._ptr), _size(x._size), _capacity(x._capacity), _alloc(x._alloc)
             {
                 *this = x;
             }
 
             ~vector( void ) 
             {
-                clear();
-                _alloc.deallocate(_start, sizeof(value_type) * capacity());
+                // clear();
+                // _alloc.deallocate(_start, sizeof(value_type) * _capacity);
                 
             }
 
@@ -83,44 +83,44 @@ namespace ft
 
             iterator begin( void )
             {
-                return _start;
+                return _ptr;
             }
 
             const_iterator begin( void ) const
             {
-                return _start;
+                return _ptr;
             }
 
             iterator end( void )
             {
-                return _end;
+                return _ptr + _size;
             }
 
             const_iterator end( void ) const
             {
-                return _end;
+                 return _ptr + _size;
             }
 
             //! Reverse Iterators
 
             reverse_iterator rbegin( void )
             {
-                return reverse_iterator(_end);
+                return reverse_iterator(_ptr + size);
             }
 
             const_reverse_iterator rbegin( void ) const
             {
-                return reverse_iterator(_end);
+                return reverse_iterator(_ptr + size);
             }
 
             reverse_iterator rend( void )
             {
-                return reverse_iterator(_start);
+                return reverse_iterator(_ptr);
             }
 
             const_reverse_iterator rend( void ) const
             {
-                return reverse_iterator(_start);
+                return reverse_iterator(_ptr);
             }
 
             //! Modifier
@@ -130,72 +130,62 @@ namespace ft
 			{
                 size_type len = std::distance(first, last);
 				clear();
-                if (len > capacity())
+                if (len > _capacity)
                     reserve(len);
 				size_type i = 0;
                 
 				for ( ; first != last ; first++ )
 				{					
-                    _alloc.construct(_start + i, *first);
+                    _alloc.construct(_ptr + i, *first);
 					i++;
 				}
-				_end = _start + i;
+				_size += i;
 			}
             
             void assign( size_type n, const value_type & val )
             {
                 clear();
-                if (n > capacity())
+                if (n > _capacity)
                     reserve(n);
                 size_type i = 0;
                 
                 for ( ; i < n ; i++ )
                 {
-                    _alloc.construct((_start + i), val);
+                    _alloc.construct((_ptr + i), val);
                 }
-                _end = _start + n;
+                _size += n;
             }
             
             void clear( )
             {
                 size_type i = 0;
                 
-                for ( ; i < size() ; i++ )
+                for ( ; i < _size ; i++ )
                 {
-                    _alloc.destroy(_start + i);
+                    _alloc.destroy(_ptr + i);
                 }
-                _end = _start;
+                _size = 0;
             }
 
             void push_back ( const value_type & val )
             {
-                if (capacity() > 0 && capacity() == size())
+                if (_capacity > 0 && _size == _capacity)
                 {
-                    pointer tmp = _alloc.allocate(sizeof(value_type) * (capacity() * 2));
-                    size_type i = 0;
-                    for ( ; i < size() ; i++ )
+                    pointer tmp = _alloc.allocate(tmp, _capacity * 2);
+                    for ( size_type i = 0 ; i < _size ; i++ )
                     {
-                        _alloc.construct(&tmp[i], _start[i]);
-                        _alloc.destroy(&_start[i]);
+                        _alloc.construct((tmp + i), _ptr + i);
                     }
-                    _alloc.deallocate(_start, capacity());
-                    _start = tmp;
-                    _end = _start + i;
                 }
-                else if (capacity() == 0)
-                {
-                    _start = _alloc.allocate(sizeof(value_type) * 1);
-                    _end = _start + 1;
-                }
-                _alloc.construct(_end, val);
-                _end++;
             }
 
             void pop_back( )
             {
-                if (!empty())
-                    _alloc.destroy(&_start[size() - 1]);
-                _end--;
+                if (_size > 0)
+                {
+                    _alloc.destroy(_ptr + _size - 1);
+                    _size--;
+                }
             }
 
             iterator insert( iterator position, const value_type& val )
@@ -220,8 +210,6 @@ namespace ft
             {
                 difference_type sp = position - _start;
                 
-                std::cout << "SIZE : " << size() << std::endl;
-                std::cout << "CAPACITY : " << capacity() << std::endl;
                 if (capacity() == 0)
                     reserve(n);
                 else if (size() + n > capacity() * 2)
@@ -229,15 +217,15 @@ namespace ft
                 else if (size() + n > capacity())
                     reserve(capacity() * 2);
                 
-                //for ( pointer tmp_end = _end - 1; tmp_end != position - 1; tmp_end-- )
-                for ( difference_type i = size() - 1 ; i > sp ; i-- )
+                position = _start + sp;
+                
+                for ( pointer tmp_end = _end - 1; tmp_end != position - 1; tmp_end-- )
                 {
-                    _alloc.construct(&_start[i + n - 1], _start[i - 1]);
-                    _alloc.destroy(&_start[i - 1]);
+                    *(tmp_end + n) = *(tmp_end);                   
                 }
                 for ( size_type i = 0 ; i < n ; i++ )
                 {
-                    _alloc.construct(&_start[sp + i], val);
+                    *(position + i) = val;
                 }
                 _end = _end + n;
             }
@@ -310,17 +298,17 @@ namespace ft
             {
                 pointer tmp;
 
-                tmp = _start;
-                _start = x._start;
-                x._start = tmp;
+                tmp = _ptr;
+                _ptr = x._ptr;
+                x._ptr = tmp;
 
-                tmp = _end;
-                _end = x._end;
-                x._end = tmp;
+                size_type tmp_size = _size;
+                _size = x._size;
+                x._size = tmp_size;
 
-                tmp = _endc;
-                _endc = x._endc;
-                x._endc = tmp;
+                size_type tmp_capacity = _capacity;
+                 _capacity = x. _capacity;
+                x. _capacity = tmp_capacity;
             }
             
             //! Capacity
@@ -376,21 +364,17 @@ namespace ft
             
             bool empty() const
             {
-                return (_end - _start) == 0;   
+                return size == 0;   
             }
             
             size_type capacity() const
             {
-                if (!_start)
-                    return 0;
-                return _endc - _start;
+                return _capacity;
             }
             
             size_type size() const
             {
-                if (!_start)
-                    return 0;
-                return _end - _start;
+                return _size;
             }
 
             size_type max_size() const
@@ -400,31 +384,31 @@ namespace ft
 
 			//! Element access
 
-            reference operator[] ( size_type n ) { return *(_start + n); }
+            reference operator[] ( size_type n ) { return *(_ptr + n); }
 
-            const_reference operator[] (size_type n) const { return *(_start + n); }
+            const_reference operator[] (size_type n) const { return *(_ptr + n); }
 
             reference at ( size_type n ) 
             {
-                if (n >= size())
+                if (n >= _size)
                     throw(std::out_of_range("at")); 
-                return _start[n]; 
+                return *(_ptr + n); 
             }
 
             const_reference at ( size_type n)  const
             {
-                if (n >= size())
+                if (n >= _size)
                     throw(std::out_of_range("at")); 
-                return _start[n];
+                return *(_ptr + n);
             }
 
-            reference front( ) { return *_start; }
+            reference front( ) { return *_ptr; }
 
-            const_reference front( ) const { return *_start; }
+            const_reference front( ) const { return *_ptr; }
 
-            reference back() { return *(_end - 1); }
+            reference back() { return *((_ptr + _size) - 1); }
 
-            const_reference back() const { return *(_end - 1); }
+            const_reference back() const { return *((_ptr + _size) - 1); }
 
             //! Allocator
             
@@ -432,9 +416,12 @@ namespace ft
             
 
         private:
-            pointer _start;
-            pointer _end;
-            pointer _endc;
+            // pointer _start;
+            // pointer _end;
+            // pointer _endc;
+            pointer _ptr;
+            size_type _size;
+            size_type _capacity;
             allocator_type _alloc;
     };
 

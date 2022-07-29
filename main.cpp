@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:26:47 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/28 21:23:23 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/29 01:02:15 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -653,9 +653,10 @@ int main( void )
 		std::cout << WHITE << std::endl << std::endl << std::endl;
     }*/
 
-	{
-		NM::vector<int>			test(3, 3);
-		NM::vector<NM::vector<int> > BOB(5, test);
+	
+	// {//! DEBUG
+		// NM::vector<int>			test(3, 3);
+		// NM::vector<NM::vector<int> > BOB(5, test);
 		
 		// NM::vector<int> BOB(5, 5);
 		
@@ -676,7 +677,7 @@ int main( void )
 		//test.assign(2, 42);
 		// std::cout << BOB.size() << std::endl;
 		// std::cout << BOB.capacity() << std::endl;
-		BOB.push_back(test);
+		// BOB.push_back(test);
 		// std::cout << BOB.size() << std::endl;
 		// std::cout << BOB.capacity() << std::endl;
 		// BOB.clear();
@@ -687,11 +688,11 @@ int main( void )
 		// std::cout << std::endl;
 		// BOB.push_back(7);
 
-		// BOB.pop_back();
+		//  BOB.pop_back();
 		
-	}
+	// }
 		
-    /*{
+    {
         NM::vector<int>			test(3, 3);
 
 	std::cout << "self assignation test\n";
@@ -882,7 +883,7 @@ int main( void )
 	std::cout << "Const it.front() : " << std::endl;
 	std::cout << (*const_it).front() << '\n';
 
-
+/*
 	//INSERT
 	std::cout << "\nINSERT\n";
 	NM::vector<NM::vector<int> >	std_insert_in_me;
@@ -917,7 +918,7 @@ int main( void )
 		std::cout << insert_bis[i].back() << ' ';
 	std::cout << '\n';
 
-/
+
 	//ERASE
 	std::cout << "\nERASE\n";
 	NM::vector<NM::vector<int> >	erase_in_me;
@@ -1057,5 +1058,6 @@ int main( void )
     }*/
 
     return 0;
+}
 }
 
