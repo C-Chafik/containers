@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
+/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:26:47 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/29 01:02:15 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/31 16:49:25 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,53 @@ int main( void )
 
         v1.push_back(41);
         std::cout << "------------------------" << std::endl;
-    }*/
+    }
+        v1.push_back(41);
 
-   /* { //! pop_back
+        std::cout << v1.capacity() << std::endl;
+
+        v1.push_back(41);
+
+        std::cout << v1.capacity() << std::endl;
+
+        v1.push_back(41);
+        std::cout << "------------------------" << std::endl;
+    }
+        v1.push_back(41);
+
+        std::cout << v1.capacity() << std::endl;
+
+        v1.push_back(41);
+
+        std::cout << v1.capacity() << std::endl;
+
+        v1.push_back(41);
+        std::cout << "------------------------" << std::endl;
+    }
+        v1.push_back(41);
+
+        std::cout << v1.capacity() << std::endl;
+
+        v1.push_back(41);
+
+        std::cout << v1.capacity() << std::endl;
+
+        v1.push_back(41);
+        std::cout << "------------------------" << std::endl;
+    }
+        v1.push_back(41);
+
+        std::cout << v1.capacity() << std::endl;
+
+        v1.push_back(41);
+
+        std::cout << v1.capacity() << std::endl;
+
+        v1.push_back(41);
+        std::cout << "------------------------" << std::endl;
+    }
+
+   	{ //! pop_back
         NM::vector<int> v1(1, 42);
 
         std::cout << "------------------------" << std::endl;
@@ -654,46 +698,55 @@ int main( void )
     }*/
 
 	
-	// {//! DEBUG
-		// NM::vector<int>			test(3, 3);
-		// NM::vector<NM::vector<int> > BOB(5, test);
+	/*{//! INSERT SIZE TEST
+	
+		NM::vector<int>			test(3, 3);
+		NM::vector<int>			testi(15, 3);
+		NM::vector<int> 		BOB(0, 0);
+
+		std::cout << RED << "BEFORE BOB CAPACITY : " << WHITE << BOB.capacity() << std::endl;
+		std::cout << RED << "BEFORE BOB SIZE : " << WHITE << BOB.size() << std::endl;
 		
-		// NM::vector<int> BOB(5, 5);
+		BOB.insert(BOB.begin(), testi.begin(), testi.end());
+		std::cout << RED << "BEFORE BOB CAPACITY : " << WHITE << BOB.capacity() << std::endl;
+		std::cout << RED << "BEFORE BOB SIZE : " << WHITE << BOB.size() << std::endl;
+		BOB.push_back(0);
+		std::cout << RED << "BEFORE BOB CAPACITY : " << WHITE << BOB.capacity() << std::endl;
+		std::cout << RED << "BEFORE BOB SIZE : " << WHITE << BOB.size() << std::endl;
+		BOB.insert(BOB.begin(), testi.begin(), testi.end());
+
+		std::cout << BLUE << "BEFORE AFTER BOB CAPACITY : " << BLUE << BOB.capacity() << WHITE << std::endl;
+		std::cout << BLUE << "BEFORE AFTER BOB SIZE : " << BLUE << BOB.size()<< WHITE << std::endl;
+	}*/
+
+	{ //! DEBUG
+	
+		NM::vector<int>			test(3, 3);
+		NM::vector<int>			testi(15, 3);
+		NM::vector<int> 		BOB(15, 0);
+
+		std::cout << RED << "BEFORE BOB CAPACITY : " << WHITE << BOB.capacity() << std::endl;
+		std::cout << RED << "BEFORE BOB SIZE : " << WHITE << BOB.size() << std::endl;
+
+		
+		BOB.push_back(1);
+		BOB.push_back(1);
+		BOB.erase(BOB.begin(), BOB.end());
+		BOB.push_back(1); BOB.push_back(1);
 		
 
-		/*size_t	bob_resize = 2;
-		BOB.resize(bob_resize);
+		BOB.erase(BOB.begin(), BOB.end());
+		BOB.push_back(1);
 
-		size_t	bob_reserve = 3;
-		BOB.reserve(bob_reserve);
-
-		test.assign(3, 17);
-		BOB.assign(3, test);
-
-		NM::vector<NM::vector<int> >	assign_range;
-		assign_range.assign(8, test);
-		assign_range.assign(BOB.begin() + 1, BOB.end() - 2);*/
-
-		//test.assign(2, 42);
-		// std::cout << BOB.size() << std::endl;
-		// std::cout << BOB.capacity() << std::endl;
-		// BOB.push_back(test);
-		// std::cout << BOB.size() << std::endl;
-		// std::cout << BOB.capacity() << std::endl;
-		// BOB.clear();
-		// for (NM::vector<int>::iterator it = BOB.begin() ; it != BOB.end() ; it++)
-		// {
-		// 	std::cout << *it << " ";
-		// }
-		// std::cout << std::endl;
-		// BOB.push_back(7);
-
-		//  BOB.pop_back();
+		BOB.push_back(1);
 		
-	// }
+
+		std::cout << BLUE << "BEFORE AFTER BOB CAPACITY : " << BLUE << BOB.capacity() << WHITE << std::endl;
+		std::cout << BLUE << "BEFORE AFTER BOB SIZE : " << BLUE << BOB.size()<< WHITE << std::endl;
+	}
 		
-    {
-        NM::vector<int>			test(3, 3);
+    /*{
+    NM::vector<int>			test(3, 3);
 
 	std::cout << "self assignation test\n";
 	NM::vector<NM::vector<int> >	self_assign;
@@ -704,7 +757,6 @@ int main( void )
 	*ptr = *ptr2;
 
 	std::cout << std::boolalpha << (*ptr == *ptr2) << '\n';
-//	self_assign = self_assign; //compiler doesn't like it!
 
 
 
@@ -879,11 +931,12 @@ int main( void )
 		std::cout << '\n';
 	}
 
+	std::cout << "CAPACITY : " << insert_in_me.capacity() << std::endl;
 	NM::vector<NM::vector<int> >::const_iterator const_it(insert_in_me.begin());
 	std::cout << "Const it.front() : " << std::endl;
 	std::cout << (*const_it).front() << '\n';
 
-/*
+
 	//INSERT
 	std::cout << "\nINSERT\n";
 	NM::vector<NM::vector<int> >	std_insert_in_me;
@@ -1055,9 +1108,11 @@ int main( void )
 	std::cout << '\n';
 
 	std::cout << std::endl;
-    }*/
+    
+	}
+	*/
 
     return 0;
 }
-}
+
 

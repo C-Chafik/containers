@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
+/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/29 01:38:52 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/07/31 16:40:49 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ namespace ft
             {
                 clear();
                 _alloc.deallocate(_start, sizeof(value_type) * capacity());
-                
             }
 
             //! Operator =
@@ -169,32 +168,17 @@ namespace ft
 
             void push_back ( const value_type & val )
             {
-                if (capacity() > 0 && capacity() == size())
-                {
-                    pointer tmp = _alloc.allocate(sizeof(value_type) * (capacity() * 2));
-                    size_type i = 0;
-                    for ( ; i < size() ; i++ )
-                    {
-                        _alloc.construct(&tmp[i], _start[i]);
-                        _alloc.destroy(&_start[i]);
-                    }
-                    _alloc.deallocate(_start, capacity());
-                    _start = tmp;
-                    _end = _start + i;
-                }
-                else if (capacity() == 0)
-                {
-                    _start = _alloc.allocate(sizeof(value_type) * 1);
-                    _end = _start + 1;
-                }
+                if (capacity() == 0)
+                    reserve(1);
+                else if (size() + 1 > capacity())
+                    reserve(capacity() * 2);
                 _alloc.construct(_end, val);
                 _end++;
             }
 
             void pop_back( )
             {
-                if (!empty())
-                    _alloc.destroy(&_start[size() - 1]);
+                _alloc.destroy(&_start[size() - 1]);
                 _end--;
             }
 
@@ -209,9 +193,10 @@ namespace ft
                 position = _start + sp;
                 for ( pointer tmp_end = _end ; tmp_end != position; tmp_end-- )
                 {
-                    *tmp_end = *(tmp_end - 1); 
+                    _alloc.construct(tmp_end, *(tmp_end - 1)); 
+                    _alloc.destroy(tmp_end);
                 }
-                *position = val;
+                _alloc.construct(position, val);
                 _end = _end + 1;
                 return position;
             }
@@ -220,24 +205,22 @@ namespace ft
             {
                 difference_type sp = position - _start;
                 
-                std::cout << "SIZE : " << size() << std::endl;
-                std::cout << "CAPACITY : " << capacity() << std::endl;
                 if (capacity() == 0)
                     reserve(n);
                 else if (size() + n > capacity() * 2)
                     reserve(capacity() + n);
                 else if (size() + n > capacity())
-                    reserve(capacity() * 2);
+                    reserve(size() * 2);
                 
-                //for ( pointer tmp_end = _end - 1; tmp_end != position - 1; tmp_end-- )
-                for ( difference_type i = size() - 1 ; i > sp ; i-- )
+                position = _start + sp;
+                for ( pointer tmp_end = _end - 1; tmp_end != position - 1; tmp_end-- )
                 {
-                    _alloc.construct(&_start[i + n - 1], _start[i - 1]);
-                    _alloc.destroy(&_start[i - 1]);
+                    _alloc.construct((tmp_end + n), *(tmp_end));
+                    _alloc.destroy((tmp_end));
                 }
                 for ( size_type i = 0 ; i < n ; i++ )
                 {
-                    _alloc.construct(&_start[sp + i], val);
+                    _alloc.construct((position + i), val);
                 }
                 _end = _end + n;
             }
@@ -253,16 +236,17 @@ namespace ft
                 else if (size() + std::distance(first, last) > capacity() * 2)
                     reserve(capacity() + std::distance(first, last));
                 else if (size() + std::distance(first, last) > capacity())
-                    reserve(capacity() * 2);
+                    reserve(size() * 2);
                 
                 position = _start + sp;
                 for ( pointer tmp_end = _end - 1; tmp_end != position - 1; tmp_end-- )
                 {
-                    *(tmp_end + std::distance(first, last)) = *(tmp_end);                   
+                    _alloc.construct((tmp_end + std::distance(first, last)), *(tmp_end));
+                    _alloc.destroy(tmp_end);              
                 }
                 for ( difference_type i = 0 ; i < n ; i++)
                 {
-                    *(position + i) = *(first++);
+                    _alloc.construct((position + i), *(first++));
                 }
                 _end = _end + n;
             }
@@ -278,7 +262,8 @@ namespace ft
                     _alloc.destroy(position);
                 for ( pointer tmp = position + 1 ; tmp != _end ; tmp++)
                 {
-                    *(tmp - 1) = *tmp;
+                    _alloc.construct((tmp - 1), *tmp);
+                    _alloc.destroy(tmp);
                 }
                 _end = _end - 1;
                 return position;
@@ -287,18 +272,17 @@ namespace ft
             iterator erase( iterator first, iterator last )
             {
                 difference_type len = std::distance(first, last);
-                
-                
                 pointer tmp_destroy = first;
-                for ( ; tmp_destroy != last ; tmp_destroy++ )
+                pointer tmp_relocate = first;
+                
+                for ( difference_type i = 0; i < len; i++, tmp_destroy++)
                 {
                     _alloc.destroy(tmp_destroy);
                 }
-                pointer tmp_relocate = first;
-                for ( difference_type i = 0 ; _start + i != _end ; i++)
+                for ( ; tmp_destroy != _end; tmp_relocate++, tmp_destroy++)
                 {
-                    *(tmp_relocate) = *(tmp_relocate + std::distance(first, last));
-                    tmp_relocate++;
+                    _alloc.construct(tmp_relocate, *tmp_destroy);
+                    _alloc.destroy(tmp_destroy);
                 }
                 _end = _end - len;
                 return first;
@@ -329,7 +313,7 @@ namespace ft
             {
                 if (n > max_size())
                     throw std::length_error("vector::reserve");
-                
+                    
                 if (n < size())
                 {
                     for ( size_type i = n; i < size() ; i++)
@@ -363,7 +347,6 @@ namespace ft
                     for ( ; _start + i != _end ; i++ )
                     {
                         _alloc.construct((tmp + i), *(_start + i));
-                        // _alloc.destroy(_start + i);
                     }
                     clear();
                     if (capacity() != 0)
