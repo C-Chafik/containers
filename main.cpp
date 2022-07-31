@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:26:47 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/31 16:49:25 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/01 00:06:53 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -723,23 +723,16 @@ int main( void )
 	
 		NM::vector<int>			test(3, 3);
 		NM::vector<int>			testi(15, 3);
-		NM::vector<int> 		BOB(15, 0);
+		NM::vector<int> 		BOB(15, 2);
 
 		std::cout << RED << "BEFORE BOB CAPACITY : " << WHITE << BOB.capacity() << std::endl;
 		std::cout << RED << "BEFORE BOB SIZE : " << WHITE << BOB.size() << std::endl;
-
 		
-		BOB.push_back(1);
-		BOB.push_back(1);
-		BOB.erase(BOB.begin(), BOB.end());
-		BOB.push_back(1); BOB.push_back(1);
 		
-
-		BOB.erase(BOB.begin(), BOB.end());
-		BOB.push_back(1);
-
-		BOB.push_back(1);
-		
+		BOB.resize(51);
+		std::cout << RED << "BEFORE BOB CAPACITY : " << WHITE << BOB.capacity() << std::endl;
+		std::cout << RED << "BEFORE BOB SIZE : " << WHITE << BOB.size() << std::endl;
+		BOB.resize(100);
 
 		std::cout << BLUE << "BEFORE AFTER BOB CAPACITY : " << BLUE << BOB.capacity() << WHITE << std::endl;
 		std::cout << BLUE << "BEFORE AFTER BOB SIZE : " << BLUE << BOB.size()<< WHITE << std::endl;

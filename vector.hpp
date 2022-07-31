@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/31 16:40:49 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/01 00:23:05 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,8 +324,10 @@ namespace ft
                 }
                 else if (n > size())
                 {
-                    if (n > capacity())
+                    if (n > size() * 2)
                         reserve(n);
+                    else
+                        reserve(size() * 2);
                     for ( size_type i = size(); i < n ; i++ )
                     {   
                         _alloc.construct((_start + i), val);
