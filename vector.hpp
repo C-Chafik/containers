@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/01 16:01:48 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/01 17:45:57 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ namespace ft
     class vector
     {
         public:   
-            typedef             T value_type; //? Aliasing the type T, to value_type
+            typedef             T value_type;
             typedef             Alloc allocator_type;
             typedef typename    allocator_type::difference_type difference_type;
             typedef typename    allocator_type::size_type size_type;
@@ -42,23 +42,53 @@ namespace ft
             typedef typename    ft::reverse_iterator<iterator> reverse_iterator;
             typedef typename    ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
-            explicit vector( const allocator_type & alloc = allocator_type() ) : _start(NULL), _end(NULL), _endc(NULL), _alloc(alloc) {}
+            //* Member functions *//
 
-            template <class InputIterator>
-            explicit vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _start(NULL), _end(NULL), _endc(NULL), _alloc(alloc)
+            //* Constructor Default
+        
+            explicit vector( const allocator_type & alloc = allocator_type() )
+            :   _start(NULL),
+                _end(NULL), 
+                _endc(NULL), 
+                _alloc(alloc) 
             {
-                assign(first, last);
+            
             }
 
-            explicit vector( size_type n, const value_type & val = value_type(), const allocator_type & alloc = allocator_type() ) : _start(NULL), _end(NULL), _endc(NULL), _alloc(alloc)
+            //* Constructor Fill
+
+            explicit vector( size_type n, const value_type & val = value_type(), const allocator_type & alloc = allocator_type() )
+            :   _start(NULL), 
+                _end(NULL), 
+                _endc(NULL), 
+                _alloc(alloc)
             {
                 assign(n, val);
             }
 
-            vector( const vector & x ) : _start(NULL), _end(NULL), _endc(NULL)
+            //* Constructor Range
+
+            template < class InputIterator >
+            explicit vector ( InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type() )
+            :   _start(NULL),
+                _end(NULL), 
+                _endc(NULL), 
+                _alloc(alloc)
+            {
+                assign(first, last);
+            }
+
+            //* Constructor by Copy
+
+            vector( const vector & x ) 
+            :   _start(NULL), 
+                _end(NULL), 
+                _endc(NULL)
             {
                 *this = x;
             }
+
+            //* Destructor
 
             ~vector( void ) 
             {
@@ -66,19 +96,20 @@ namespace ft
                 _alloc.deallocate(_start, sizeof(value_type) * capacity());
             }
 
-            //! Operator =
-
-
+            //* Operator =
+            
             vector & operator=( const vector & x )
             {
                 if (*this == x)
                     return *this;
+                
                 assign(x.begin(), x.end());
                 return *this;
             }
 
+            //* Iterators *//
             
-            //! Iterators
+            //* Iterator
 
             iterator begin( void )
             {
@@ -100,7 +131,7 @@ namespace ft
                 return _end;
             }
 
-            //! Reverse Iterators
+            //* Reverse Iterator
 
             reverse_iterator rbegin( void )
             {
@@ -122,10 +153,12 @@ namespace ft
                 return reverse_iterator(_start);
             }
 
-            //! Modifier
+            //* Modifiers *//
             
+            //* Assign
+
             template < class InputIterator >
-            void assign ( InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last )
+            void assign ( InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last ) //! We need enable_if there
 			{
                 size_type len = std::distance(first, last);
 				clear();
@@ -154,17 +187,8 @@ namespace ft
                 }
                 _end = _start + n;
             }
-            
-            void clear( )
-            {
-                size_type i = 0;
-                
-                for ( ; i < size() ; i++ )
-                {
-                    _alloc.destroy(_start + i);
-                }
-                _end = _start;
-            }
+
+            //* Push_back
 
             void push_back ( const value_type & val )
             {
@@ -176,11 +200,15 @@ namespace ft
                 _end++;
             }
 
-            void pop_back( )
+            //* Pop_back
+
+            void pop_back( void )
             {
                 _alloc.destroy(&_start[size() - 1]);
                 _end--;
             }
+
+            //* Insert
 
             iterator insert( iterator position, const value_type& val )
             {
@@ -205,6 +233,7 @@ namespace ft
             {
                 if (n <= 0)
                     return ;
+                
                 difference_type sp = position - _start;
                 
                 if (capacity() == 0)
@@ -227,8 +256,8 @@ namespace ft
                 _end = _end + n;
             }
 
-            template <class InputIterator>
-            void insert (iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last )
+            template < class InputIterator >
+            void insert ( iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last ) //! We need enable_if there
             {
                 difference_type n = std::distance(first, last);
                 difference_type sp = position - _start;
@@ -253,7 +282,7 @@ namespace ft
                 _end = _end + n;
             }
 
-            //! Erase
+            //* Erase
 
             iterator erase( iterator position )
             {
@@ -290,7 +319,7 @@ namespace ft
                 return first;
             }
 
-            //! Swap
+            //* Swap
 
             void swap( vector & x )
             {
@@ -308,10 +337,41 @@ namespace ft
                 _endc = x._endc;
                 x._endc = tmp;
             }
-            
-            //! Capacity
 
-            void resize (size_type n, value_type val = value_type())
+            //* Clear
+
+            void clear( void )
+            {
+                size_type i = 0;
+                
+                for ( ; i < size() ; i++ )
+                {
+                    _alloc.destroy(_start + i);
+                }
+                _end = _start;
+            }
+            
+            //* Capacity *//
+
+            //* Size
+
+            size_type size( void ) const
+            {
+                if (!_start)
+                    return 0;
+                return _end - _start;
+            }
+
+            //* Max_size
+
+            size_type max_size( void ) const
+            {
+                return _alloc.max_size();
+            }
+
+            //* Resize
+
+            void resize ( size_type n, value_type val = value_type() )
             {
                 if (n > max_size())
                     throw std::length_error("vector::reserve");
@@ -337,6 +397,24 @@ namespace ft
                 }
                 _end = _start + n;
             }
+
+            //* Capacity
+
+            size_type capacity( void ) const
+            {
+                if (!_start)
+                    return 0;
+                return _endc - _start;
+            }
+
+            //* Empty
+
+            bool empty( void ) const
+            {
+                return (_end - _start) == 0;   
+            }
+
+            //* Reserve
             
             void reserve( size_type n )
             {
@@ -360,36 +438,16 @@ namespace ft
                     _start = tmp;
                 }
             }
-            
-            bool empty() const
-            {
-                return (_end - _start) == 0;   
-            }
-            
-            size_type capacity() const
-            {
-                if (!_start)
-                    return 0;
-                return _endc - _start;
-            }
-            
-            size_type size() const
-            {
-                if (!_start)
-                    return 0;
-                return _end - _start;
-            }
 
-            size_type max_size() const
-            {
-                return _alloc.max_size();
-            }
+			//* Element access *//
 
-			//! Element access
+            //* Operator[]
 
             reference operator[] ( size_type n ) { return *(_start + n); }
 
             const_reference operator[] (size_type n) const { return *(_start + n); }
+
+            //* At
 
             reference at ( size_type n ) 
             {
@@ -405,19 +463,26 @@ namespace ft
                 return _start[n];
             }
 
-            reference front( ) { return *_start; }
+            //* Front
 
-            const_reference front( ) const { return *_start; }
+            reference front( void ) { return *_start; }
 
-            reference back() { return *(_end - 1); }
+            const_reference front( void ) const { return *_start; }
 
-            const_reference back() const { return *(_end - 1); }
+            //* Back
 
-            //! Allocator
+            reference back( void ) { return *(_end - 1); }
+
+            const_reference back( void ) const { return *(_end - 1); }
+
+            //* Element access *\\
+
+            //* Get_allocator
             
-            allocator_type get_allocator() const { allocator_type tmp; return tmp; }
+            allocator_type get_allocator( void ) const { allocator_type tmp; return tmp; }
             
 
+        
         private:
             pointer _start;
             pointer _end;
@@ -425,46 +490,46 @@ namespace ft
             allocator_type _alloc;
     };
 
-    //! Relational Operators
+    //* Relational Operators *//
 
-    template <class T, class Alloc>
+    template < class T, class Alloc >
     bool operator==( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
         return ( lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()) );
     }
 
-    template <class T, class Alloc>
+    template < class T, class Alloc >
     bool operator!=( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
         return !(lhs == rhs);
     }
 
-    template <class T, class Alloc>
+    template < class T, class Alloc >
     bool operator<( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
         return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
     }
 
-    template <class T, class Alloc>
+    template < class T, class Alloc >
     bool operator<=( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
         return !(rhs < lhs);
     }
 
-    template <class T, class Alloc>
+    template < class T, class Alloc >
     bool operator>( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
         return rhs < lhs;
     }
 
-    template <class T, class Alloc>
+    template < class T, class Alloc >
     bool operator>=( const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs )
     {
         return !(lhs < rhs);
     }
 
     //! Non-Member Swap
-    template <class T, class Alloc>
+    template < class T, class Alloc >
     void swap( vector<T,Alloc> & x, vector<T,Alloc> & y )
     {
         if (x == y)
