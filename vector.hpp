@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/01 17:45:57 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/01 17:51:16 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,21 +158,23 @@ namespace ft
             //* Assign
 
             template < class InputIterator >
-            void assign ( InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last ) //! We need enable_if there
-			{
+            void assign ( InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last )
+            {
                 size_type len = std::distance(first, last);
-				clear();
-                if (len > capacity())
-                    reserve(len);
-				size_type i = 0;
+                clear();
                 
-				for ( ; first != last ; first++ )
-				{					
+                if (len > capacity())
+                reserve(len);
+                
+                size_type i = 0;
+                
+                for ( ; first != last ; first++ )
+                {					
                     _alloc.construct(_start + i, *first);
-					i++;
-				}
-				_end = _start + i;
-			}
+                    i++;
+                    }
+                    _end = _start + i;
+            }
             
             void assign( size_type n, const value_type & val )
             {
@@ -257,7 +259,7 @@ namespace ft
             }
 
             template < class InputIterator >
-            void insert ( iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last ) //! We need enable_if there
+            void insert ( iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type last )
             {
                 difference_type n = std::distance(first, last);
                 difference_type sp = position - _start;
@@ -528,7 +530,7 @@ namespace ft
         return !(lhs < rhs);
     }
 
-    //! Non-Member Swap
+    //* Non-Member Swap
     template < class T, class Alloc >
     void swap( vector<T,Alloc> & x, vector<T,Alloc> & y )
     {
