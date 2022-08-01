@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/01 00:23:05 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/01 16:01:48 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,8 @@ namespace ft
 
             void insert( iterator position, size_type n, const value_type & val )
             {
+                if (n <= 0)
+                    return ;
                 difference_type sp = position - _start;
                 
                 if (capacity() == 0)
@@ -244,9 +246,9 @@ namespace ft
                     _alloc.construct((tmp_end + std::distance(first, last)), *(tmp_end));
                     _alloc.destroy(tmp_end);              
                 }
-                for ( difference_type i = 0 ; i < n ; i++)
+                for ( difference_type i = 0 ; i < n ; i++, first++)
                 {
-                    _alloc.construct((position + i), *(first++));
+                    _alloc.construct((position + i), *(first));
                 }
                 _end = _end + n;
             }

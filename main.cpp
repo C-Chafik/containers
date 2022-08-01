@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:26:47 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/01 00:06:53 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/01 16:01:19 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -721,18 +721,23 @@ int main( void )
 
 	{ //! DEBUG
 	
-		NM::vector<int>			test(3, 3);
-		NM::vector<int>			testi(15, 3);
-		NM::vector<int> 		BOB(15, 2);
+		NM::vector<int>			test(10, 50);
+		// NM::vector<int>			testi(15, 3);
+		NM::vector<int> 		BOB(1, 1);
 
 		std::cout << RED << "BEFORE BOB CAPACITY : " << WHITE << BOB.capacity() << std::endl;
 		std::cout << RED << "BEFORE BOB SIZE : " << WHITE << BOB.size() << std::endl;
-		
-		
-		BOB.resize(51);
-		std::cout << RED << "BEFORE BOB CAPACITY : " << WHITE << BOB.capacity() << std::endl;
-		std::cout << RED << "BEFORE BOB SIZE : " << WHITE << BOB.size() << std::endl;
-		BOB.resize(100);
+
+		BOB.insert(BOB.begin(), 200, 12);
+		BOB.insert(BOB.begin() + 12, 200, 30);
+		BOB.insert(BOB.end(), 12, 50);
+		BOB.insert(BOB.end() - 1, 0, 60);
+		BOB.insert(BOB.end() - 1, 0, 70);
+		for ( NM::vector<int>::iterator it = BOB.begin() ; it != BOB.end() ; it++ )
+		{
+			std::cout << *it << " ";
+		}
+		std::cout << std::endl << std::endl;
 
 		std::cout << BLUE << "BEFORE AFTER BOB CAPACITY : " << BLUE << BOB.capacity() << WHITE << std::endl;
 		std::cout << BLUE << "BEFORE AFTER BOB SIZE : " << BLUE << BOB.size()<< WHITE << std::endl;
