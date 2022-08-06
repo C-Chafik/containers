@@ -1,14 +1,14 @@
-FT		= main.cpp
+FT		= m_main.cpp
 
-STL		= main.cpp
+STL		= m_main.cpp
 
 RM 			= rm -f
 
 FLAGS 		= -Wall -Wextra -Werror -g -std=c++98 -O0 #-fsanitize=address
 
-NAME		= ft_vector
+NAME		= ft
 
-STL_NAME	= std_vector
+STL_NAME	= std
 
 CC 			= c++
 

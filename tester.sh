@@ -1,9 +1,9 @@
 make -j re
-valgrind ./ft_vector > FT
+valgrind ./ft > FT
 echo
 echo "<=========================VALGRIND==========================>"
 echo
-valgrind ./std_vector > STD
+valgrind ./std > STD
 echo "FT : "
 cat FT
 echo

@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/01 17:51:16 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/06 19:47:58 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include <iostream>
 # include <memory>
 
-# include "external_functions/is_integral.hpp"
-# include "external_functions/lexicographical_compare.hpp"
-# include "external_functions/equal.hpp"
-# include "external_functions/enable_if.hpp"
+# include "utils/is_integral.hpp"
+# include "utils/lexicographical_compare.hpp"
+# include "utils/equal.hpp"
+# include "utils/enable_if.hpp"
 # include "iterators/iterator_traits.hpp"
 # include "iterators/reverse_iterator.hpp"
 
