@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 15:04:58 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/06 20:23:06 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/08 20:35:59 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,25 @@
 
 int main( void )
 {
-    std::map<std::string, int> Map;
+    std::map<int, int> Map;
+    Map[7] = 1;
+    Map[3] = 2;
+    Map[18] = 3;
+    Map[10] = 4;
+    Map[22] = 5;
+    Map[26] = 6;
+    Map[8] = 7;
+    Map[11] = 8;
 
-
-    Map["Key1"] = 42;
-
-    Map["Key1"] = 114;
-
-    std::cout << Map["Key1"] << std::endl;
+    // std::cout << " The Begin is :" << Map.begin()->first << std::endl;
+    // std::map<int, int>::iterator it = Map.begin();
+    // // for (std::map<int, int>::iterator it = Map.begin() ; it != Map.end() ; it++)
+    // // {
+    // //     std::cout << it->first  << " " << it->second << " " << std::endl;
+    // // }
+    // it++;
+    // std::cout << it->first  << " " << it->second << " " << std::endl;
+    // it--;
+    // std::cout << it->first  << " " << it->second << " " << std::endl;
+    // //std:: cout << WHITE << std::endl << std::endl;
 }

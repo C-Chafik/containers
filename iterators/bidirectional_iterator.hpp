@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 15:27:04 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/06 17:15:46 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/08 20:36:39 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ namespace ft
             typedef typename iterator_traits<Iterator>::pointer pointer;
             typedef typename iterator_traits<Iterator>::reference reference;
 
-        bidirectional_iterator( void ) {};
+        bidirectional_iterator( void ) {}
 
-        explicit bidirectional_iterator( iterator_type & it ) { _ptr = it; };
+        explicit bidirectional_iterator( iterator_type & it ) { _ptr = it; }
         
-        ~bidirectional_iterator( void ) {};
+        ~bidirectional_iterator( void ) {}
         
         iterator_type base( void ) const
         {

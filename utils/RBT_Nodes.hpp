@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 19:48:38 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/06 21:54:57 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/08 17:54:49 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,12 @@ namespace ft
                 data = x.data;
                 color = x.color;
             }
-            
             return *this;
         }
 
-        Node *get_uncle( void )
+        bool operator==( const_reference_Node rhs ) const
         {
-            if (!parent || !parent->parent)
-                return NULL;
-            if (parent->parent->right)
+            return data == rhs.data;
         }
 
     };
