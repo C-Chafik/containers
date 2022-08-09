@@ -6,14 +6,14 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 15:27:04 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/08 20:36:39 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/09 16:45:42 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BIDIRECTIONAL_ITERATOR_HPP
 # define BIDIRECTIONAL_ITERATOR_HPP
 
-# include "iterator_traits.hpp"
+# include "iterators.hpp"
 
 namespace ft
 {
@@ -22,11 +22,11 @@ namespace ft
     {
         public:
             typedef Iterator iterator_type;
-            typedef typename iterator_traits<Iterator>::iterator_category iterator_category;
-            typedef typename iterator_traits<Iterator>::value_type value_type;
-            typedef typename iterator_traits<Iterator>::difference_type difference_type;
-            typedef typename iterator_traits<Iterator>::pointer pointer;
-            typedef typename iterator_traits<Iterator>::reference reference;
+            typedef typename ft::iterator< bidirectional_iterator_tag, Iterator>::iterator_category iterator_category;
+            typedef typename ft::iterator< bidirectional_iterator_tag, Iterator>::value_type value_type;
+            typedef typename ft::iterator< bidirectional_iterator_tag, Iterator>::difference_type difference_type;
+            typedef typename ft::iterator< bidirectional_iterator_tag, Iterator>::pointer pointer;
+            typedef typename ft::iterator< bidirectional_iterator_tag, Iterator>::reference reference;
 
         bidirectional_iterator( void ) {}
 

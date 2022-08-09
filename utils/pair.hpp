@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 21:57:26 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/08 15:02:43 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/09 20:58:02 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ namespace ft
         second_type second;
 
         //* Constructor
-        pair( void )
+        pair( void ) : first(first_type()), second(second_type())
         {
             
         }
@@ -36,17 +36,19 @@ namespace ft
         template<class U, class V>
         pair( const pair<U,V> & pr ) : first(pr.first), second(pr.second)
         {
-            *this = pr;
+        
         }
-
+        
         pair( const first_type & a, const second_type & b ) : first(a), second(b)
         {
             
         }
-
+        
         //* Operator =
         pair & operator=( const pair & pr )
         {
+            if ( this == &pr )
+                return *this;
             first = pr.first;
             second = pr.second;
             return *this;

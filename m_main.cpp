@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 15:04:58 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/08 20:35:59 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/09 22:31:39 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 #include <fstream>
 #include <sstream>
 # include "utils/is_integral.hpp"
+# include "utils/pair.hpp"
+# include "utils/make_pair.hpp"
 # include "utils/lexicographical_compare.hpp"
 # include "utils/equal.hpp"
 # include "utils/enable_if.hpp"
@@ -41,25 +43,12 @@
 
 int main( void )
 {
-    std::map<int, int> Map;
-    Map[7] = 1;
-    Map[3] = 2;
-    Map[18] = 3;
-    Map[10] = 4;
-    Map[22] = 5;
-    Map[26] = 6;
-    Map[8] = 7;
-    Map[11] = 8;
+    NM::map<std::string, int> Map;
 
-    // std::cout << " The Begin is :" << Map.begin()->first << std::endl;
-    // std::map<int, int>::iterator it = Map.begin();
-    // // for (std::map<int, int>::iterator it = Map.begin() ; it != Map.end() ; it++)
-    // // {
-    // //     std::cout << it->first  << " " << it->second << " " << std::endl;
-    // // }
-    // it++;
-    // std::cout << it->first  << " " << it->second << " " << std::endl;
-    // it--;
-    // std::cout << it->first  << " " << it->second << " " << std::endl;
-    // //std:: cout << WHITE << std::endl << std::endl;
+    Map.insert(NM::make_pair<std::string, int>("Key1", 42));
+
+    NM::map<std::string, int>::iterator it = Map.begin();
+    (void)it;
+
+    std::cout << it->first << std::endl;
 }

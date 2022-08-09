@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 19:48:38 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/08 17:54:49 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/09 22:31:27 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ namespace ft
         typedef Node&           reference_Node;
         typedef const Node&     const_reference_Node;
         
-        Node_pointer*       parent;
-        Node_pointer*       left;
-        Node_pointer*       right;
+        Node_pointer       parent;
+        Node_pointer       left;
+        Node_pointer       right;
         value_type          data;
         int                 color;
 
@@ -42,47 +42,43 @@ namespace ft
         :   parent(NULL),
             left(NULL),
             right(NULL),
-            data(NULL),
             color(RED)
         {
 
         }
 
-        Node( value_type new_data ) 
-        :   parent(NULL),
-            left(NULL),
-            right(NULL),
-            data(new_data),
+        Node( value_type new_data, Node_pointer x_parent = NULL, Node_pointer x_left = NULL, Node_pointer x_right = NULL) 
+        :   data(new_data),
             color(RED)
         {
-
+            parent = x_parent;
+            left = x_left;
+            right = x_right;
+            // std::cout << data.first << std::endl;
         }
 
         Node( const Node & x )
-        :   parent(NULL),
-            left(NULL),
-            right(NULL),
-            data(NULL),
-            color(0)
+        :   parent(x.parent),
+            left(x.left),
+            right(x.right),
+            color(x.color)
         {
-            *this = x;
+            
         }
         
         ~Node ( void )
         {
-            
         }
 
         Node & operator=( const Node & x )
         {
-            if (*this != x)
-            {
-                parent = x.parent;
-                left = x.left;
-                right = x.right;
-                data = x.data;
-                color = x.color;
-            }
+            if (*this == x)
+                return *this;
+            parent = x.parent;
+            left = x.left;
+            right = x.right;
+            data = x.data;
+            color = x.color;
             return *this;
         }
 

@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:19:57 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/08 20:42:03 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/09 22:31:57 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ namespace	ft
 			typedef Compare															key_compare;
 			typedef T_alloc															allocator_type;
 			typedef N_alloc															allocator_nodes;
-			typedef typename ft::RBT_iterator<T>::iterator	 	 	 					iterator;
-			typedef typename ft::RBT_iterator<T>::const_iterator	 	 	 			const_iterator;
+			typedef typename ft::RBT_iterator<Node>									iterator; //! Besoin de rendre les fonctions en const 
+			typedef typename ft::const_RBT_iterator<Node>							const_iterator;
 			typedef typename Node::Node_pointer										Node_pointer;
 			typedef typename Node::const_Node_pointer								const_Node_pointer;
 			typedef typename Node::reference_Node									reference_Node;
@@ -57,7 +57,6 @@ namespace	ft
 			//* Default constructor, with the default key_compare
 			RBT( void ) : _root(NULL), _cmp(key_compare()), _alloc(allocator_nodes()), _talloc(allocator_type())
 			{
-            
 			}
 			
 			//* Constructor with the manually given key_compare
@@ -84,6 +83,24 @@ namespace	ft
 				if ( *this != src )
 					_root = src._root;
 				return *this;
+			}
+			
+			iterator begin( void )
+			{
+				if (!_root)
+					return NULL;
+				if (_root->left)
+					return (_root->left);
+				return iterator(_root);	
+			}
+
+			const_iterator begin( void ) const
+			{
+				if (!_root)
+					return NULL;
+				if (_root->left)
+					return (_root->left);
+				return const_iterator(_root);	
 			}
 
 			//? Lets begin with the rotation function, in order to prepare the field for the insertion / erasing
@@ -128,16 +145,20 @@ namespace	ft
 
 			//* Insertion
 
-			pair<iterator,bool> insert( const value_type & data )
+			ft::pair<iterator,bool> insert( const value_type & data )
 			{
 				Node_pointer x = _root;
 
 				if ( x == NULL ) //* If the tree is empty or not
 				{
+					std::cout << data.first << std::endl;
 					x = _alloc.allocate(sizeof(value_type) * 1);
 					_alloc.construct(x, Node(data));
-					x.color = BLACK;
-					return (ft::make_pair<iterator, bool>(x, NULL), true); //! Need to write the iterator
+					x->color = BLACK;
+					std::cout << x << x->data.first << std::endl;
+					std::cout << "x data is :" << x->data.first << std::endl;
+					_root = x;
+					return ft::make_pair<iterator, bool>(iterator(x), true);
 				}
 				else
 				{
@@ -145,36 +166,35 @@ namespace	ft
 					while ( x )
 					{
 						y = x;
-						if (cmp(x->data.first, data.first))
+						if (_cmp(x->data.first, data.first))
 							x = x->right;
-						else if (cmp(data.first, x->data.first))
+						else if (_cmp(data.first, x->data.first))
 							x = x->left;
 					}
 					x = _alloc.allocate(sizeof(value_type) * 1);
 					_alloc.construct(x, Node(data));
 					x->parent = y;
-					if (cmp(y->data.first, x->data.first))
+					if (_cmp(y->data.first, x->data.first))
 						y->right = x;
 					else
 						y->left = x;
-					//insert_fix(); //! Need to write the insert_fix
-					return (ft::make_pair<iterator, bool>(x, NULL), true); //! Need to write the iterator
+					insert_fix(y);
+					return ft::make_pair<iterator, bool>(iterator(x), true);
 				}
 			}
 
 			//* Rebalancing the tree after insertion
 			void insert_fix( Node_pointer z )
 			{
-				Node_pointer y;
 				while ( z->parent &&  z->parent->color == RED )
 				{
 					if ( z->parent == z->parent->parent->left )
 					{
-						if ( z->parent->parent->right && z->parent->parent->right.color == RED )
+						if ( z->parent->parent->right && z->parent->parent->right->color == RED )
 						{
-							z->parent->parent->left.color = BLACK;
-							z->parent->parent->right.color = BLACK;
-							z->parent->parent.color = RED;
+							z->parent->parent->left->color = BLACK;
+							z->parent->parent->right->color = BLACK;
+							z->parent->parent->color = RED;
 							z = z->parent->parent;
 						}
 						else
@@ -184,18 +204,18 @@ namespace	ft
 								z = z->parent->right;
 								rotate_left(z);
 							}
-							z->parent.color = BLACK;
-							z->parent->parent.color = RED;
+							z->parent->color = BLACK;
+							z->parent->parent->color = RED;
 							rotate_right(z->parent->parent);
 						}
 					}
 					else
 					{
-						if ( z->parent->parent->left && z->parent->parent->left.color == RED )
+						if ( z->parent->parent->left && z->parent->parent->left->color == RED )
 						{
-							z->parent->parent->left.color = BLACK;
-							z->parent->parent->right.color = BLACK;
-							z->parent->parent.color = RED;
+							z->parent->parent->left->color = BLACK;
+							z->parent->parent->right->color = BLACK;
+							z->parent->parent->color = RED;
 							z = z->parent->parent;
 						}
 						else if ( z == z->parent->left)
@@ -203,12 +223,12 @@ namespace	ft
 							z = z->parent;
 							rotate_right(z);
 						}
-						z->parent.color = BLACK;
-						z->parent->parent.color = RED;
+						z->parent->color = BLACK;
+						z->parent->parent->color = RED;
 						rotate_left(z->parent->parent);
 					}
 				}
-				_root.color = BLACK;
+				_root->color = BLACK;
 			}
 
 		private:

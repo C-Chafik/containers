@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:12:29 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/26 22:37:04 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/09 16:24:20 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define REVERSE_ITERATOR_HPP
 
 # include "iterator_traits.hpp"
-
 
 namespace ft
 {
@@ -28,7 +27,6 @@ namespace ft
             typedef typename iterator_traits<Iterator>::difference_type difference_type;
             typedef typename iterator_traits<Iterator>::pointer pointer;
             typedef typename iterator_traits<Iterator>::reference reference;
-        
 
         reverse_iterator( void ) { };
 
