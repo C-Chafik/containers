@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 19:51:12 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/09 21:30:05 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/10 21:53:57 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,27 @@ namespace ft
 			{
 				return _root.begin();
 			}
+
+			iterator end( void )
+			{
+				return _root.end();	
+			}
+
+			const_iterator end( void ) const
+			{
+				return _root.end();	
+			}
+
+			size_type erase( const key_type & k )
+			{
+				_root.erase(k);
+				return 1;
+			}
+
+			// void erase( iterator position )
+			// {
+			// 	_root.erase(position);
+			// }
 
 			ft::pair<iterator,bool> insert( const value_type & val )
 			{

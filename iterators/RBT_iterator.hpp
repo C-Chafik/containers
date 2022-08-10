@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 18:28:49 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/09 21:52:58 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/10 22:01:00 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,18 @@ namespace ft
             return &(_node->data);
         }
 
+		iterator_type base( void ) const
+		{
+			return _node;
+		}
+
 		RBT_iterator & operator++( void )
 		{
 			tree_increment();
 			return *this;
 		}
 
-		RBT_iterator & operator++( int )
+		RBT_iterator operator++( int )
 		{
 			RBT_iterator tmp = *this;
 			
@@ -82,7 +87,7 @@ namespace ft
 			return *this;
 		}
 
-		RBT_iterator & operator--( int )
+		RBT_iterator operator--( int )
 		{
 			RBT_iterator tmp = *this;
 			
@@ -105,34 +110,29 @@ namespace ft
 
 		void 	tree_increment( void )
 		{
-			if ( _node->right )
+			if (_node)
 			{
-				Iterator tmp = _node->right;
-				while ( tmp->left )
+				if ( _node->right )
 				{
-					tmp = tmp->left;
-				}
-				_node = tmp;
-			}
-			else
-			{
-				Iterator tmp = _node->parent;
-				// if ( tmp->right == _node ) //? Need to undurstand deeply this condition
-				// {
-				// 	while ( tmp->right == _node )
-				// 	{
-				// 		_node = tmp;
-				// 		tmp = tmp->parent;
-				// 	}
-				// }
-				// if ( _node->right != tmp )
+					iterator_type tmp = _node->right;
+					while ( tmp->left )
+					{
+						tmp = tmp->left;
+					}
 					_node = tmp;
+				}
+				else
+				{
+					while (_node->parent && _node->parent->right == _node)
+						_node = _node->parent;
+					_node = _node->parent;
+				}
 			}
 		}
 
 		void	tree_decrement( void )
 		{
-			if ( _node )
+			if (_node)
 			{
 				if ( _node->left )
 				{
@@ -142,17 +142,11 @@ namespace ft
 				}
 				else
 				{
-					Iterator tmp = _node->parent;
-					// while ( tmp->left == _node ) //? Need to undurstand deeply this loop
-					// {
-					// 	_node = tmp;
-					// 	tmp = tmp->parent;
-					// }
-					_node = tmp;
+					while (_node->parent && _node->parent->left == _node)
+						_node = _node->parent;
+					_node = _node->parent;
 				}
 			}
-			else //* else its just gonna go to NULL
-				_node = _node->parent;
 		}
     };
 
@@ -195,6 +189,11 @@ namespace ft
         {
             return &(_node->data);
         }
+
+		iterator_type base( void ) const
+		{
+			return _node;
+		}
 
 		const_RBT_iterator & operator++( void )
 		{
@@ -239,34 +238,29 @@ namespace ft
 
 		void 	tree_increment( void )
 		{
-			if ( _node->right )
+			if (_node)
 			{
-				Iterator tmp = _node->right;
-				while ( tmp->left )
+				if ( _node->right )
 				{
-					tmp = tmp->left;
-				}
-				_node = tmp;
-			}
-			else
-			{
-				Iterator tmp = _node->parent;
-				// if ( tmp->right == _node ) //? Need to undurstand deeply this condition
-				// {
-				// 	while ( tmp->right == _node )
-				// 	{
-				// 		_node = tmp;
-				// 		tmp = tmp->parent;
-				// 	}
-				// }
-				// if ( _node->right != tmp )
+					iterator_type tmp = _node->right;
+					while ( tmp->left )
+					{
+						tmp = tmp->left;
+					}
 					_node = tmp;
+				}
+				else
+				{
+					while (_node->parent && _node->parent->right == _node)
+						_node = _node->parent;
+					_node = _node->parent;
+				}
 			}
 		}
 
 		void	tree_decrement( void )
 		{
-			if ( _node )
+			if (_node)
 			{
 				if ( _node->left )
 				{
@@ -276,17 +270,11 @@ namespace ft
 				}
 				else
 				{
-					Iterator tmp = _node->parent;
-					// while ( tmp->left == _node ) //? Need to undurstand deeply this loop
-					// {
-					// 	_node = tmp;
-					// 	tmp = tmp->parent;
-					// }
-					_node = tmp;
+					while (_node->parent && _node->parent->left == _node)
+						_node = _node->parent;
+					_node = _node->parent;
 				}
 			}
-			else //* else its just gonna go to NULL
-				_node = _node->parent;
 		}
     };
 }

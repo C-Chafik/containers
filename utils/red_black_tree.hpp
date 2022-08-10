@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:19:57 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/09 22:31:57 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/10 22:22:17 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ namespace	ft
     {
         public:
 			typedef T																value_type;
+			typedef typename value_type::first_type									key_type;
+			typedef typename value_type::second_type								mapped_type;
 			typedef Compare															key_compare;
 			typedef T_alloc															allocator_type;
 			typedef N_alloc															allocator_nodes;
@@ -74,7 +76,6 @@ namespace	ft
 			//* Destructor
 			~RBT( void )
 			{
-				//clear();
 			}
 
 			//* Operator =
@@ -85,22 +86,44 @@ namespace	ft
 				return *this;
 			}
 			
+			iterator end( void )
+			{
+				return iterator(maximum(_root));
+			}
+
+			const_iterator end( void ) const
+			{
+				return const_iterator(maximum(_root));
+			}
+			
 			iterator begin( void )
 			{
-				if (!_root)
-					return NULL;
-				if (_root->left)
-					return (_root->left);
-				return iterator(_root);	
+				return iterator(minimum(_root));	
 			}
 
 			const_iterator begin( void ) const
 			{
-				if (!_root)
+				return const_iterator(minimum(_root));	
+			}
+
+			//* Find the maximum from a node
+			Node_pointer maximum( Node_pointer start )
+			{
+				while ( start->right != NULL )
+					start = start->right;
+				if ( start == NULL )
 					return NULL;
-				if (_root->left)
-					return (_root->left);
-				return const_iterator(_root);	
+				return start;
+			}
+
+			//* Find the minimum from a node
+			Node_pointer minimum( Node_pointer start )
+			{
+				while ( start->left != NULL )
+					start = start->left;
+				if ( start == NULL )
+					return NULL;
+				return start;
 			}
 
 			//? Lets begin with the rotation function, in order to prepare the field for the insertion / erasing
@@ -109,7 +132,7 @@ namespace	ft
 			void rotate_left( Node_pointer x )
 			{
 				Node_pointer y = x->right;
-
+				
 				x->right = y->left;
 				if ( y->left )
 					y->left->parent = x;
@@ -143,6 +166,19 @@ namespace	ft
 				x->parent = y;	
 			}
 
+			//* Transplant
+			void transplant( Node_pointer u, Node_pointer v)
+			{
+				if ( u->parent == NULL )
+					_root = v;
+				else if ( u == u->parent->left )
+					u->parent->left = v;
+				else
+					u->parent->right = v;
+				if (v)
+					v->parent = u->parent;
+			}
+
 			//* Insertion
 
 			ft::pair<iterator,bool> insert( const value_type & data )
@@ -151,12 +187,9 @@ namespace	ft
 
 				if ( x == NULL ) //* If the tree is empty or not
 				{
-					std::cout << data.first << std::endl;
 					x = _alloc.allocate(sizeof(value_type) * 1);
 					_alloc.construct(x, Node(data));
 					x->color = BLACK;
-					std::cout << x << x->data.first << std::endl;
-					std::cout << "x data is :" << x->data.first << std::endl;
 					_root = x;
 					return ft::make_pair<iterator, bool>(iterator(x), true);
 				}
@@ -229,6 +262,134 @@ namespace	ft
 					}
 				}
 				_root->color = BLACK;
+			}
+
+			//* Erasing
+
+			ft::pair<iterator,bool> erase( const key_type & key ) //! Il faut placer le pointeur del a la data recu en parametre, et le destruire si il existe.
+			{
+				Node_pointer del = _root;
+
+				while ( del && del->data.first != key )
+				{
+					if (_cmp(key, del->data.first))
+						del = del->left;
+					else if (_cmp(del->data.first, key))
+						del = del->right;
+				}
+				if ( del == NULL )
+					return ft::make_pair<iterator, bool>(NULL, false);
+
+				Node_pointer x;
+				Node_pointer y = del;
+				int	old_color = y->color;
+							
+				if ( del->left == NULL )
+				{
+					x = del->right;
+					transplant(del, del->right);
+				}
+				else if ( del->right == NULL )
+				{
+					x = del->left;
+					transplant(del, del->left);
+				}
+				else
+				{
+					y = minimum(del->right);
+					old_color = y->color;
+					x = y->right;
+					if ( x && y->parent == del )
+						x->parent = y;
+					else
+					{
+						transplant(y, y->right);
+						y->right = del->right;
+						if (y->right)
+							y->right->parent = y;
+					}
+					transplant(del, y);
+					y->left = del->left;
+					if (y->left)
+						y->left->parent = y;
+					y->color = del->color;
+				}
+				_alloc.destroy(del);
+				_alloc.deallocate(del, sizeof(value_type) * 1);
+				if ( old_color == BLACK )
+					erase_fix(x);
+				return ft::make_pair<iterator, bool>(iterator(x), true);
+			}
+			
+			//* Rebalancing the tree after erasing
+			void erase_fix( Node_pointer x )
+			{
+				while ( x != _root && x->color == BLACK )
+				{
+					if ( x == x->parent->left )
+					{
+						Node_pointer w = x->parent->right;
+						if ( x->parent->right->color == RED )
+						{
+							x->parent->right->color = BLACK;
+							x->parent->color = RED;
+							rotate_left(x->parent);
+							w = x->parent->right;
+						}
+						if ( w->right->color == BLACK && w->left->color == BLACK )
+						{
+							w->color = RED;
+							x = x->parent;
+						}
+						else if ( w->right->color == BLACK )
+						{
+							w->left->color = BLACK;
+							w->color = RED;
+							rotate_right(w);
+							w = x->parent->right;
+						}
+						else
+						{
+							w->color = x->parent->color;
+							x->parent->color = BLACK;
+							w->right->color = BLACK;
+							rotate_left(x->parent);
+							_root = x;		
+						}
+					}
+					else
+					{
+						Node_pointer w = x->parent->left;
+						if ( x->parent->left->color == RED )
+						{
+							x->parent->left->color = BLACK;
+							x->parent->color = RED;
+							rotate_right(x->parent);
+							w = x->parent->left;
+						}
+						if ( w->right->color == BLACK && w->right->color == BLACK )
+						{
+							w->color = RED;
+							x = x->parent;
+						}
+						else if ( w->left->color == BLACK )
+						{
+							w->right->color = BLACK;
+							w->color = RED;
+							rotate_left(w);
+							w = x->parent->left;
+						}
+						else
+						{
+							w->color = x->parent->color;
+							x->parent->color = BLACK;
+							w->left->color = BLACK;
+							rotate_right(x->parent);
+							_root = x;		
+						}
+					}
+				}
+				x->color = BLACK;
 			}
 
 		private:

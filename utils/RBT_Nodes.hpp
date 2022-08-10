@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 19:48:38 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/09 22:31:27 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/10 22:09:57 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ namespace ft
             right(NULL),
             color(RED)
         {
-
+            
         }
 
         Node( value_type new_data, Node_pointer x_parent = NULL, Node_pointer x_left = NULL, Node_pointer x_right = NULL) 
@@ -54,20 +54,21 @@ namespace ft
             parent = x_parent;
             left = x_left;
             right = x_right;
-            // std::cout << data.first << std::endl;
         }
 
         Node( const Node & x )
         :   parent(x.parent),
             left(x.left),
             right(x.right),
+            data(x.data),
             color(x.color)
         {
-            
+
         }
         
         ~Node ( void )
         {
+            
         }
 
         Node & operator=( const Node & x )
