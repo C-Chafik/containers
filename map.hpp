@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 19:51:12 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/10 21:53:57 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/11 22:30:09 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ namespace ft
 
 			explicit map( const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type() ) : _size(0), _cmp(comp), _alloc(alloc)
 			{
+				
 			}
 
 			// template < class InputIterator >
@@ -102,19 +103,27 @@ namespace ft
 				_root.erase(k);
 				return 1;
 			}
-
-			// void erase( iterator position )
-			// {
-			// 	_root.erase(position);
-			// }
-
+			
 			ft::pair<iterator,bool> insert( const value_type & val )
 			{
-				ft::pair<iterator, bool> ret;
-				ret = _root.insert(val);
-				return ret;
+				return _root.insert(val);
 			}
-			
+
+			iterator insert( iterator position, const value_type & val )
+			{(void) position;
+				return _root.insert(val).first;
+			}
+
+			template <class InputIterator>
+  			void insert ( InputIterator first, InputIterator last )
+			{
+				while ( first != last )
+				{
+					_root.insert(*first);
+					first++;
+				}
+			}
+
 		private:
 			RBT<value_type, key_compare> _root;
 			size_type       _size;

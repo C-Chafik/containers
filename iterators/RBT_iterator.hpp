@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 18:28:49 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/10 22:01:00 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/11 22:59:00 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,15 @@ namespace ft
             typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::reference 		reference;
 
         RBT_iterator( void )
-		: 	_node(NULL)
+		: 	_node(NULL),
+		 	_end(NULL)
 		{
 			
 		}
 		
-        RBT_iterator( iterator_type node ) { _node = node; }
+        RBT_iterator( iterator_type node, iterator_type end ) { _node = node; _end = end; }
 
-		RBT_iterator( const RBT_iterator & x ) : _node(x._node)
+		RBT_iterator( const RBT_iterator & x ) : _node(x._node), _end(x._end)
 		{
 			
 		}
@@ -107,6 +108,7 @@ namespace ft
 
 		private:
 			iterator_type 	_node;
+			iterator_type	_end;
 
 		void 	tree_increment( void )
 		{
@@ -114,12 +116,10 @@ namespace ft
 			{
 				if ( _node->right )
 				{
-					iterator_type tmp = _node->right;
-					while ( tmp->left )
-					{
-						tmp = tmp->left;
-					}
-					_node = tmp;
+					_node = _node->right;
+					while ( _node->left )
+						_node = _node->left;
+					_node = _node->left;
 				}
 				else
 				{
@@ -147,6 +147,8 @@ namespace ft
 					_node = _node->parent;
 				}
 			}
+			else
+				_node = _end;
 		}
     };
 
@@ -242,12 +244,10 @@ namespace ft
 			{
 				if ( _node->right )
 				{
-					iterator_type tmp = _node->right;
-					while ( tmp->left )
-					{
-						tmp = tmp->left;
-					}
-					_node = tmp;
+					_node = _node->right;
+					while ( _node->left )
+						_node = _node->left;
+					_node = _node->left;
 				}
 				else
 				{
@@ -256,9 +256,11 @@ namespace ft
 					_node = _node->parent;
 				}
 			}
+			else
+				_node = NULL;
 		}
 
-		void	tree_decrement( void )
+		void	tree_decrement( void )	
 		{
 			if (_node)
 			{
@@ -275,6 +277,8 @@ namespace ft
 					_node = _node->parent;
 				}
 			}
+			else
+				_node = NULL;
 		}
     };
 }

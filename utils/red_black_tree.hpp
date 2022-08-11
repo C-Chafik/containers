@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:19:57 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/10 22:22:17 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/11 23:26:22 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,22 +88,22 @@ namespace	ft
 			
 			iterator end( void )
 			{
-				return iterator(maximum(_root));
+				return iterator(NULL, maximum(_root));
 			}
-
+			
 			const_iterator end( void ) const
 			{
-				return const_iterator(maximum(_root));
+				return const_iterator(NULL, maximum(_root));
 			}
 			
 			iterator begin( void )
 			{
-				return iterator(minimum(_root));	
+				return iterator(minimum(_root), NULL);	
 			}
 
 			const_iterator begin( void ) const
 			{
-				return const_iterator(minimum(_root));	
+				return const_iterator(minimum(_root), NULL);	
 			}
 
 			//* Find the maximum from a node
@@ -111,8 +111,6 @@ namespace	ft
 			{
 				while ( start->right != NULL )
 					start = start->right;
-				if ( start == NULL )
-					return NULL;
 				return start;
 			}
 
@@ -121,8 +119,6 @@ namespace	ft
 			{
 				while ( start->left != NULL )
 					start = start->left;
-				if ( start == NULL )
-					return NULL;
 				return start;
 			}
 
@@ -140,9 +136,9 @@ namespace	ft
 				if ( x->parent == NULL )
 					_root = y;
 				else if ( x == x->parent->left )
-					y = x->parent->left;
+					x->parent->left = y;
 				else
-					y = x->parent->right;
+					x->parent->right = y;
 				y->left = x;
 				x->parent = y;	
 			}
@@ -159,9 +155,9 @@ namespace	ft
 				if ( x->parent == NULL )
 					_root = y;
 				else if ( x == x->parent->right )
-					y = x->parent->right;
+					x->parent->right = y;
 				else
-					y = x->parent->left;
+					x->parent->left = y;
 				y->right = x;
 				x->parent = y;	
 			}
@@ -183,19 +179,17 @@ namespace	ft
 
 			ft::pair<iterator,bool> insert( const value_type & data )
 			{
-				Node_pointer x = _root;
-
-				if ( x == NULL ) //* If the tree is empty or not
+				if ( _root == NULL ) //* If the tree is empty or not
 				{
-					x = _alloc.allocate(sizeof(value_type) * 1);
-					_alloc.construct(x, Node(data));
-					x->color = BLACK;
-					_root = x;
-					return ft::make_pair<iterator, bool>(iterator(x), true);
+					_root = _alloc.allocate(sizeof(value_type) * 1);
+					_alloc.construct(_root, Node(data));
+					_root->color = BLACK;
+					return ft::make_pair<iterator, bool>(iterator(_root, NULL), true);
 				}
 				else
 				{
-					Node_pointer y;
+					Node_pointer x = _root;
+					Node_pointer y = NULL;
 					while ( x )
 					{
 						y = x;
@@ -211,17 +205,17 @@ namespace	ft
 						y->right = x;
 					else
 						y->left = x;
-					insert_fix(y);
-					return ft::make_pair<iterator, bool>(iterator(x), true);
+					insert_fix(x);
+					return ft::make_pair<iterator, bool>(iterator(x, NULL), true);
 				}
 			}
 
 			//* Rebalancing the tree after insertion
 			void insert_fix( Node_pointer z )
 			{
-				while ( z->parent &&  z->parent->color == RED )
+				while ( z->parent && z->parent->color == RED )
 				{
-					if ( z->parent == z->parent->parent->left )
+					if ( z->parent->parent->left == z->parent )
 					{
 						if ( z->parent->parent->right && z->parent->parent->right->color == RED )
 						{
@@ -234,7 +228,7 @@ namespace	ft
 						{
 							if ( z == z->parent->right )
 							{
-								z = z->parent->right;
+								z = z->parent;
 								rotate_left(z);
 							}
 							z->parent->color = BLACK;
@@ -251,14 +245,18 @@ namespace	ft
 							z->parent->parent->color = RED;
 							z = z->parent->parent;
 						}
-						else if ( z == z->parent->left)
+						else
 						{
-							z = z->parent;
-							rotate_right(z);
+							if ( z == z->parent->left )
+							{
+								z = z->parent;
+								rotate_right(z);
+							}
+
+							z->parent->color = BLACK;
+							z->parent->parent->color = RED;
+							rotate_left(z->parent->parent);
 						}
-						z->parent->color = BLACK;
-						z->parent->parent->color = RED;
-						rotate_left(z->parent->parent);
 					}
 				}
 				_root->color = BLACK;
@@ -318,7 +316,7 @@ namespace	ft
 				_alloc.deallocate(del, sizeof(value_type) * 1);
 				if ( old_color == BLACK )
 					erase_fix(x);
-				return ft::make_pair<iterator, bool>(iterator(x), true);
+				return ft::make_pair<iterator, bool>(iterator(x, NULL), true);
 			}
 			
 			//* Rebalancing the tree after erasing

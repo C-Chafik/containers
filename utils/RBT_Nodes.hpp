@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 19:48:38 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/10 22:09:57 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/11 17:01:02 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ namespace ft
         :   parent(NULL),
             left(NULL),
             right(NULL),
+            data(value_type()),
             color(RED)
         {
-            
         }
 
         Node( value_type new_data, Node_pointer x_parent = NULL, Node_pointer x_left = NULL, Node_pointer x_right = NULL) 

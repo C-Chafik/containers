@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 15:04:58 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/10 22:06:42 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/11 23:03:12 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,53 +44,45 @@
 int main( void )
 {
     NM::map<std::string, int> Map;
- 
+    NM::map<std::string, int> Tester;
+
+    std::cout << BLUE << " TESTING MAP INSERT " << std::endl;
+
+    Tester.insert(NM::make_pair<std::string, int>("Keyy4", 42));
+    Tester.insert(NM::make_pair<std::string, int>("Keyy2", 52));
+    Tester.insert(NM::make_pair<std::string, int>("Keyy3", 62));
+    Tester.insert(NM::make_pair<std::string, int>("Keyy1", 72));
+
+    std::cout << std::endl << std::endl << BLUE << " SINGLE ELEMENT " << std::endl;    
+
+    // Map.insert(Tester.begin(), Tester.end());
+
+
+
+    Map.insert(NM::make_pair<std::string, int>("Keyy4", 42));
+    Map.insert(NM::make_pair<std::string, int>("Keyy2", 52));
+    Map.insert(NM::make_pair<std::string, int>("Keyy3", 62));
+    Map.insert(NM::make_pair<std::string, int>("Keyy1", 72));
+
+    //     NM::map<std::string, int>::iterator ite = Map.begin();
+    // std::cout << ite->first << std::endl;
+
+    // ite++;
+
+    // std::cout << ite->first << std::endl;
+
+    // ite++;
+
+    // std::cout << ite->first << std::endl;
+
+    // ite++;
+
+    // std::cout << ite->first << std::endl;
+
+    for ( NM::map<std::string, int>::iterator it = Map.begin() ; it != Map.end() ; it++ )
+    {
+        std::cout << it->first << " ";
+    }
     
-
-    Map.insert(NM::make_pair<std::string, int>("Key4", 42));
-    Map.insert(NM::make_pair<std::string, int>("Key2", 52));
-    Map.insert(NM::make_pair<std::string, int>("Key3", 62));
-    Map.insert(NM::make_pair<std::string, int>("Key1", 72));
-
-    NM::map<std::string, int>::iterator it = Map.begin();
-    NM::map<std::string, int>::iterator ite = Map.end();
-
-    // ite--;
-
-    std::cout << "iterator first value : " << it->first << std::endl;
-    std::cout << "iterator second value : " << it->second << std::endl;
-
-    std::cout << "iterator end first value : " << ite->first << std::endl;
-    std::cout << "iterator end second value : " << ite->second << std::endl;
-    
-    // Map.erase("Key2");
-    // it = Map.begin();
-    
-    // int i = 0;
-    // while ( i < 3 )
-    // {
-    //     std::cout << "iterator first value : " << it->first << std::endl;
-    //     std::cout << "iterator second value : " << it->second << std::endl;
-    //     i++;
-    //     it++;
-    // }
-
-    // std::cout << "iterator first value : " << it->first << std::endl;
-    // std::cout << "iterator second value : " << it->second << std::endl;
-    
-    // it++;
-
-    // std::cout << "next iterator first value : " << it->first << std::endl;
-    // std::cout << "next iterator second value : " << it->second << std::endl;
-
-    // it--;
-
-    // std::cout << "previous iterator first value : " << it->first << std::endl;
-    // std::cout << "previous iterator second value : " << it->second << std::endl;
-
-    // it++;
-    // it++;
-
-    // std::cout << "next next iterator first value : " << it->first << std::endl;
-    // std::cout << "next next iterator second value : " << it->second << std::endl;
+    std::cout << std::endl;
 }
