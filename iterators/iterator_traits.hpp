@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator_traits.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 12:58:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/07/26 21:47:41 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/13 16:45:17 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ namespace ft
             typedef typename Iterator::difference_type difference_type;
             typedef typename Iterator::value_type value_type;
             typedef typename Iterator::pointer pointer;
-            typedef typename Iterator::const_pointer const_pointer;
+            typedef typename Iterator::reference reference;
             typedef typename Iterator::iterator_category iterator_category;
     };
 

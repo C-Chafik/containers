@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_pair.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:52:00 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/08 15:04:30 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/14 02:19:35 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 namespace ft
 {
     template < class T1, class T2 >
-    pair< T1, T2 > make_pair( T1 x, T2 y )
+    ft::pair< T1, T2 > make_pair( T1 x, T2 y )
     {
-        return ( pair< T1, T2 >( x, y ) );
+        return ( ft::pair< T1, T2 >( x, y ) );
     }
     
 }

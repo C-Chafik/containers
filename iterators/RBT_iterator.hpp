@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBT_iterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 18:28:49 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/11 22:59:00 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/14 02:43:29 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,23 @@ namespace ft
             typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::pointer 			pointer;
             typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::reference 		reference;
 
-        RBT_iterator( void )
+        RBT_iterator( void ) 
 		: 	_node(NULL),
 		 	_end(NULL)
 		{
 			
 		}
 		
-        RBT_iterator( iterator_type node, iterator_type end ) { _node = node; _end = end; }
+        RBT_iterator( iterator_type node, iterator_type end ) 
+		: 	_node(node), 
+			_end(end) 
+		{
+			
+		}
 
-		RBT_iterator( const RBT_iterator & x ) : _node(x._node), _end(x._end)
+		RBT_iterator( const RBT_iterator & x ) 
+		: 	_node(x._node), 
+			_end(x._end)
 		{
 			
 		}
@@ -46,10 +53,8 @@ namespace ft
 
 		RBT_iterator & operator=( const RBT_iterator & x )
 		{
-			if ( *this != x )
-			{
-				_node = x._node;
-			}
+			_node = x._node;
+			_end = x._end;
 			return *this;
 		}
 
@@ -66,6 +71,11 @@ namespace ft
 		iterator_type base( void ) const
 		{
 			return _node;
+		}
+		
+		iterator_type end( void ) const
+		{
+			return _end;
 		}
 
 		RBT_iterator & operator++( void )
@@ -114,12 +124,12 @@ namespace ft
 		{
 			if (_node)
 			{
+				_end = _node;
 				if ( _node->right )
 				{
 					_node = _node->right;
 					while ( _node->left )
 						_node = _node->left;
-					_node = _node->left;
 				}
 				else
 				{
@@ -128,7 +138,7 @@ namespace ft
 					_node = _node->parent;
 				}
 			}
-		}
+		}	
 
 		void	tree_decrement( void )
 		{
@@ -157,28 +167,49 @@ namespace ft
     {
         public:
             typedef const Iterator* 																		iterator_type;
-			typedef typename Iterator::value_type 															value_type;
-            typedef typename ft::iterator< bidirectional_iterator_tag, Iterator>::iterator_category iterator_category;
-            typedef typename ft::iterator< bidirectional_iterator_tag, Iterator>::difference_type 	difference_type;
-            typedef typename ft::iterator< bidirectional_iterator_tag, Iterator>::pointer 			pointer;
-            typedef typename ft::iterator< bidirectional_iterator_tag, Iterator>::reference 		reference;
-
+			typedef typename Iterator::value_type 													const value_type;
+            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::iterator_category iterator_category;
+            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::difference_type 	difference_type;
+            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::pointer 			pointer;
+            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::reference 		reference;
+		
         const_RBT_iterator( void )
-		: 	_node(NULL)
+		: 	_node(NULL),
+			_end(NULL)
 		{
 			
 		}
 		
-        const_RBT_iterator( iterator_type & node ) { _node = node; }
-
-		~const_RBT_iterator( void ) {}
-
-		const_RBT_iterator & operator=( const_RBT_iterator & x )
+        const_RBT_iterator( iterator_type node, iterator_type end ) 
+		: 	_node(node), 
+			_end(end)
 		{
-			if ( *this != x )
-			{
-				_node = x._node;
-			}
+			
+		}
+
+		const_RBT_iterator( const const_RBT_iterator & x ) 
+		: 	_node(x._node), 
+			_end(x._end)
+		{
+
+		}
+
+		const_RBT_iterator( const RBT_iterator<Iterator> & x ) 
+		: 	_node(x.base()), 
+			_end(x.end())
+		{
+
+		}
+
+		~const_RBT_iterator( void ) 
+		{ 
+			
+		}
+
+		const_RBT_iterator & operator=( const const_RBT_iterator & x )
+		{
+			_node = x._node;
+			_end = x._end;
 			return *this;
 		}
 
@@ -195,6 +226,11 @@ namespace ft
 		iterator_type base( void ) const
 		{
 			return _node;
+		}
+
+		iterator_type end( void ) const
+		{
+			return _end;
 		}
 
 		const_RBT_iterator & operator++( void )
@@ -237,17 +273,18 @@ namespace ft
 
 		private:
 			iterator_type 	_node;
+			iterator_type 	_end;
 
 		void 	tree_increment( void )
 		{
 			if (_node)
 			{
+				_end = _node;
 				if ( _node->right )
 				{
 					_node = _node->right;
 					while ( _node->left )
 						_node = _node->left;
-					_node = _node->left;
 				}
 				else
 				{
@@ -256,8 +293,6 @@ namespace ft
 					_node = _node->parent;
 				}
 			}
-			else
-				_node = NULL;
 		}
 
 		void	tree_decrement( void )	
@@ -278,7 +313,7 @@ namespace ft
 				}
 			}
 			else
-				_node = NULL;
+				_node = _end;
 		}
     };
 }

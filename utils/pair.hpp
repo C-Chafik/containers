@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pair.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 21:57:26 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/09 20:58:02 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/14 02:19:14 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ namespace ft
             
         }
 
-        template<class U, class V>
-        pair( const pair<U,V> & pr ) : first(pr.first), second(pr.second)
-        {
-        
-        }
-        
         pair( const first_type & a, const second_type & b ) : first(a), second(b)
         {
             
+        }
+
+        template<class U, class V>
+        pair( const pair<U, V> & pr ) : first(pr.first), second(pr.second)
+        {
+        
         }
         
         //* Operator =

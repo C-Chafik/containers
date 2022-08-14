@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   red_black_tree.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:19:57 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/11 23:26:22 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/14 01:41:58 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ namespace	ft
 			typedef Compare															key_compare;
 			typedef T_alloc															allocator_type;
 			typedef N_alloc															allocator_nodes;
+			typedef typename allocator_type::size_type								size_type;
 			typedef typename ft::RBT_iterator<Node>									iterator; //! Besoin de rendre les fonctions en const 
 			typedef typename ft::const_RBT_iterator<Node>							const_iterator;
 			typedef typename Node::Node_pointer										Node_pointer;
@@ -76,103 +77,159 @@ namespace	ft
 			//* Destructor
 			~RBT( void )
 			{
+				
 			}
 
 			//* Operator =
 			RBT & operator=( const RBT & src )
 			{
 				if ( *this != src )
+				{
 					_root = src._root;
+					_cmp = src._cmp;
+					_alloc = src._alloc;
+				}
 				return *this;
 			}
 			
 			iterator end( void )
 			{
-				return iterator(NULL, maximum(_root));
+				return iterator(NULL, _maximum(_root));
 			}
 			
-			const_iterator end( void ) const
+			const_iterator const_end( void ) const
 			{
-				return const_iterator(NULL, maximum(_root));
+				return const_iterator(NULL, _maximum(_root));
 			}
 			
 			iterator begin( void )
 			{
-				return iterator(minimum(_root), NULL);	
+				return iterator(_minimum(_root), NULL);	
 			}
 
-			const_iterator begin( void ) const
+			const_iterator const_begin( void ) const
 			{
-				return const_iterator(minimum(_root), NULL);	
+				return const_iterator(_minimum(_root), NULL);	
 			}
 
-			//* Find the maximum from a node
-			Node_pointer maximum( Node_pointer start )
+			void clear( void )
 			{
-				while ( start->right != NULL )
-					start = start->right;
-				return start;
+				_root = _recursive_dump(_root);
 			}
 
-			//* Find the minimum from a node
-			Node_pointer minimum( Node_pointer start )
+			void swap( Node_pointer x )
 			{
-				while ( start->left != NULL )
-					start = start->left;
-				return start;
+				Node_pointer		_root_tmp = _root;
+				key_compare			_cmp_tmp = _cmp;
+				allocator_nodes		_alloc_tmp = _alloc;
+
+				_root = x._root;
+				_cmp = x._cmp;
+				_alloc = x._alloc;
+
+				x._root = _root_tmp;
+				x._cmp = _cmp_tmp;
+				x._alloc = _alloc_tmp;
 			}
 
-			//? Lets begin with the rotation function, in order to prepare the field for the insertion / erasing
-
-			//* Left Rotation
-			void rotate_left( Node_pointer x )
+			iterator find ( const key_type & k )
 			{
-				Node_pointer y = x->right;
+				Node_pointer x = _root;
 				
-				x->right = y->left;
-				if ( y->left )
-					y->left->parent = x;
-				y->parent = x->parent;
-				if ( x->parent == NULL )
-					_root = y;
-				else if ( x == x->parent->left )
-					x->parent->left = y;
-				else
-					x->parent->right = y;
-				y->left = x;
-				x->parent = y;	
+				while ( x )
+				{
+					if (_cmp(x->data.first, k))
+							x = x->right;
+					else if (_cmp(k, x->data.first))
+							x = x->left;
+					else // * Found it!
+						return iterator(x, NULL);
+				}
+				return end();
 			}
 
-			//* Right Rotation
-			void rotate_right( Node_pointer x )
+			const_iterator find ( const key_type & k ) const
 			{
-				Node_pointer y = x->left;
-
-				x->left = y->right;
-				if ( y->right )
-					y->right->parent = x;
-				y->parent = x->parent;
-				if ( x->parent == NULL )
-					_root = y;
-				else if ( x == x->parent->right )
-					x->parent->right = y;
-				else
-					x->parent->left = y;
-				y->right = x;
-				x->parent = y;	
+				Node_pointer x = _root;
+				
+				while ( x )
+				{
+					if (_cmp(x->data.first, k))
+							x = x->right;
+					else if (_cmp(k, x->data.first))
+							x = x->left;
+					else // * Found it!
+						return iterator(x, NULL);
+				}
+				return end();
 			}
 
-			//* Transplant
-			void transplant( Node_pointer u, Node_pointer v)
+			size_type count( const key_type & k ) const
 			{
-				if ( u->parent == NULL )
-					_root = v;
-				else if ( u == u->parent->left )
-					u->parent->left = v;
-				else
-					u->parent->right = v;
-				if (v)
-					v->parent = u->parent;
+				Node_pointer x = _root;
+				
+				while ( x )
+				{
+					if (_cmp(x->data.first, k))
+							x = x->right;
+					else if (_cmp(k, x->data.first))
+							x = x->left;
+					else // * Found it!
+						return 1;
+				}
+				return 0;
+			}
+
+			iterator lower_bound ( const key_type & k )
+			{
+				iterator b = begin();
+				iterator e = end();
+				while ( b != e)
+				{
+					if ( _cmp(b->first, k) == false )
+						return b;
+					b++;
+				}
+				return b;
+			}
+
+			const_iterator lower_bound ( const key_type & k ) const
+			{
+				const_iterator b = begin();
+				const_iterator e = end();
+				while ( b != e)
+				{
+					if ( _cmp(b->first, k) == false )
+						return b;
+					b++;
+				}
+				return b;
+			}
+
+			iterator upper_bound ( const key_type & k )
+			{
+				iterator b = begin();
+				iterator e = end();
+				while ( b != e)
+				{
+					if ( _cmp(k, b->first) == true )
+						return b;
+					b++;
+				}
+				return b;
+			}
+
+			const_iterator upper_bound ( const key_type & k ) const
+			{
+				const_iterator b = begin();
+				const_iterator e = end();
+				while ( b != e)
+				{
+					if ( _cmp(b->first, k) == true )
+						return b;
+					b++;
+				}
+				return b;
 			}
 
 			//* Insertion
@@ -197,6 +254,8 @@ namespace	ft
 							x = x->right;
 						else if (_cmp(data.first, x->data.first))
 							x = x->left;
+						else // * Else it already exist !
+							return ft::make_pair<iterator, bool>(iterator(NULL, NULL), false);
 					}
 					x = _alloc.allocate(sizeof(value_type) * 1);
 					_alloc.construct(x, Node(data));
@@ -205,13 +264,163 @@ namespace	ft
 						y->right = x;
 					else
 						y->left = x;
-					insert_fix(x);
+					_insert_fix(x);
 					return ft::make_pair<iterator, bool>(iterator(x, NULL), true);
 				}
 			}
 
+			//* Erasing
+
+			ft::pair<iterator,bool> erase( const key_type & key ) //! Il faut placer le pointeur del a la data recu en parametre, et le destruire si il existe.
+			{
+				Node_pointer del = _root;
+
+				while ( del && del->data.first != key )
+				{
+					if (_cmp(key, del->data.first))
+						del = del->left;
+					else if (_cmp(del->data.first, key))
+						del = del->right;
+				}
+				if ( del == NULL )
+					return ft::make_pair<iterator, bool>(iterator(NULL, NULL), false);
+
+				Node_pointer x;
+				Node_pointer y = del;
+				int	old_color = y->color;
+							
+				if ( del->left == NULL )
+				{
+					x = del->right;
+					_transplant(del, del->right);
+				}
+				else if ( del->right == NULL )
+				{
+					x = del->left;
+					_transplant(del, del->left);
+				}
+				else
+				{
+					y = _minimum(del->right);
+					old_color = y->color;
+					x = y->right;
+					if ( x && y->parent == del )
+						x->parent = y;
+					else
+					{
+						_transplant(y, y->right);
+						y->right = del->right;
+						if (y->right)
+							y->right->parent = y;
+					}
+					_transplant(del, y);
+					y->left = del->left;
+					if (y->left)
+						y->left->parent = y;
+					y->color = del->color;
+				}
+				_alloc.destroy(del);
+				_alloc.deallocate(del, sizeof(value_type) * 1);
+				if ( old_color == BLACK )
+					_erase_fix(x);
+				return ft::make_pair<iterator, bool>(iterator(x, NULL), true);
+			}
+
+		private:
+			Node_pointer		_root;
+			key_compare			_cmp;
+			allocator_nodes		_alloc;
+			allocator_type		_talloc;
+
+
+			//? Lets begin with the rotation function, in order to prepare the field for the insertion / erasing
+
+			//* Left Rotation
+			void _rotate_left( Node_pointer x )
+			{
+				Node_pointer y = x->right;
+				
+				x->right = y->left;
+				if ( y->left )
+					y->left->parent = x;
+				y->parent = x->parent;
+				if ( x->parent == NULL )
+					_root = y;
+				else if ( x == x->parent->left )
+					x->parent->left = y;
+				else
+					x->parent->right = y;
+				y->left = x;
+				x->parent = y;	
+			}
+
+			//* Right Rotation
+			void _rotate_right( Node_pointer x )
+			{
+				Node_pointer y = x->left;
+
+				x->left = y->right;
+				if ( y->right )
+					y->right->parent = x;
+				y->parent = x->parent;
+				if ( x->parent == NULL )
+					_root = y;
+				else if ( x == x->parent->right )
+					x->parent->right = y;
+				else
+					x->parent->left = y;
+				y->right = x;
+				x->parent = y;	
+			}
+
+			//* Transplant
+			void _transplant( Node_pointer u, Node_pointer v)
+			{
+				if ( u->parent == NULL )
+					_root = v;
+				else if ( u == u->parent->left )
+					u->parent->left = v;
+				else
+					u->parent->right = v;
+				if (v)
+					v->parent = u->parent;
+			}
+
+			Node_pointer _recursive_dump( Node_pointer start )
+			{
+				if (!start)
+					return NULL;
+				if ( start->right )
+					return _recursive_dump(start->right);
+				if ( start->left )
+					return _recursive_dump(start->left);
+				_alloc.destroy(start);
+				_alloc.deallocate(start, sizeof(Node_pointer) * 1);
+				return NULL;
+			}
+
+			//* Find the maximum from a node
+			Node_pointer _maximum( Node_pointer start )
+			{
+				if (!start)
+					return NULL;
+				if (start->right)
+					return _maximum(start->right);
+				return start;
+			}
+
+			//* Find the minimum from a node
+			Node_pointer _minimum( Node_pointer start )
+			{
+				if (!start)
+					return NULL;
+				if (start->left)
+					return _minimum(start->left);
+				return start;
+			}
+
 			//* Rebalancing the tree after insertion
-			void insert_fix( Node_pointer z )
+			void _insert_fix( Node_pointer z )
 			{
 				while ( z->parent && z->parent->color == RED )
 				{
@@ -229,11 +438,11 @@ namespace	ft
 							if ( z == z->parent->right )
 							{
 								z = z->parent;
-								rotate_left(z);
+								_rotate_left(z);
 							}
 							z->parent->color = BLACK;
 							z->parent->parent->color = RED;
-							rotate_right(z->parent->parent);
+							_rotate_right(z->parent->parent);
 						}
 					}
 					else
@@ -250,108 +459,52 @@ namespace	ft
 							if ( z == z->parent->left )
 							{
 								z = z->parent;
-								rotate_right(z);
+								_rotate_right(z);
 							}
 
 							z->parent->color = BLACK;
 							z->parent->parent->color = RED;
-							rotate_left(z->parent->parent);
+							_rotate_left(z->parent->parent);
 						}
 					}
 				}
 				_root->color = BLACK;
 			}
 
-			//* Erasing
-
-			ft::pair<iterator,bool> erase( const key_type & key ) //! Il faut placer le pointeur del a la data recu en parametre, et le destruire si il existe.
-			{
-				Node_pointer del = _root;
-
-				while ( del && del->data.first != key )
-				{
-					if (_cmp(key, del->data.first))
-						del = del->left;
-					else if (_cmp(del->data.first, key))
-						del = del->right;
-				}
-				if ( del == NULL )
-					return ft::make_pair<iterator, bool>(NULL, false);
-
-				Node_pointer x;
-				Node_pointer y = del;
-				int	old_color = y->color;
-							
-				if ( del->left == NULL )
-				{
-					x = del->right;
-					transplant(del, del->right);
-				}
-				else if ( del->right == NULL )
-				{
-					x = del->left;
-					transplant(del, del->left);
-				}
-				else
-				{
-					y = minimum(del->right);
-					old_color = y->color;
-					x = y->right;
-					if ( x && y->parent == del )
-						x->parent = y;
-					else
-					{
-						transplant(y, y->right);
-						y->right = del->right;
-						if (y->right)
-							y->right->parent = y;
-					}
-					transplant(del, y);
-					y->left = del->left;
-					if (y->left)
-						y->left->parent = y;
-					y->color = del->color;
-				}
-				_alloc.destroy(del);
-				_alloc.deallocate(del, sizeof(value_type) * 1);
-				if ( old_color == BLACK )
-					erase_fix(x);
-				return ft::make_pair<iterator, bool>(iterator(x, NULL), true);
-			}
-			
 			//* Rebalancing the tree after erasing
-			void erase_fix( Node_pointer x )
+			void _erase_fix( Node_pointer x )
 			{
-				while ( x != _root && x->color == BLACK )
+				while ( x && x != _root && x->color == BLACK )
 				{
 					if ( x == x->parent->left )
 					{
 						Node_pointer w = x->parent->right;
-						if ( x->parent->right->color == RED )
+						if ( w->color == RED )
 						{
-							x->parent->right->color = BLACK;
+							w->color = BLACK;
 							x->parent->color = RED;
-							rotate_left(x->parent);
+							_rotate_left(x->parent);
 							w = x->parent->right;
 						}
-						if ( w->right->color == BLACK && w->left->color == BLACK )
+						if ( (!w->right || w->right->color == BLACK) && (!w->left || w->left->color == BLACK ))
 						{
 							w->color = RED;
-							x = x->parent;
-						}
-						else if ( w->right->color == BLACK )
-						{
-							w->left->color = BLACK;
-							w->color = RED;
-							rotate_right(w);
-							w = x->parent->right;
+							x = x->parent; 
 						}
 						else
 						{
+							if ( w->right->color == BLACK || !w->right )
+							{
+								w->left->color = BLACK;
+								w->color = RED;
+								_rotate_right(w);
+								w = x->parent->right;
+							}
 							w->color = x->parent->color;
-							x->parent->color = BLACK;
-							w->right->color = BLACK;
-							rotate_left(x->parent);
+							x->parent->parent->color = BLACK;
+							if ( w->right )
+								w->right->color = BLACK;
+							_rotate_left(x->parent);
 							_root = x;		
 						}
 					}
@@ -362,39 +515,35 @@ namespace	ft
 						{
 							x->parent->left->color = BLACK;
 							x->parent->color = RED;
-							rotate_right(x->parent);
+							_rotate_right(x->parent);
 							w = x->parent->left;
 						}
-						if ( w->right->color == BLACK && w->right->color == BLACK )
+						if ( (!w->right || w->right->color == BLACK) && (!w->left || w->left->color == BLACK ))
 						{
 							w->color = RED;
 							x = x->parent;
 						}
-						else if ( w->left->color == BLACK )
-						{
-							w->right->color = BLACK;
-							w->color = RED;
-							rotate_left(w);
-							w = x->parent->left;
-						}
 						else
 						{
+							if ( w->left->color == BLACK || !w->left )
+							{
+								w->right->color = BLACK;
+								w->color = RED;
+								_rotate_left(w);
+								w = x->parent->left;
+							}
 							w->color = x->parent->color;
-							x->parent->color = BLACK;
-							w->left->color = BLACK;
-							rotate_right(x->parent);
+							x->parent->parent->color = BLACK;
+							if ( w->left )
+								w->left->color = BLACK;
+							_rotate_right(x->parent);
 							_root = x;		
 						}
 					}
 				}
-				x->color = BLACK;
+				if ( x )
+					x->color = BLACK;
 			}
-
-		private:
-			Node_pointer		_root;
-			key_compare			_cmp;
-			allocator_nodes		_alloc;
-			allocator_type		_talloc;
 	};
 }
 
