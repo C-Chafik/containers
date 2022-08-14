@@ -6,7 +6,7 @@
 /*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:19:57 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/14 01:41:58 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/14 16:08:49 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ namespace	ft
 			typedef typename value_type::first_type									key_type;
 			typedef typename value_type::second_type								mapped_type;
 			typedef Compare															key_compare;
-			typedef T_alloc															allocator_type;
+			typedef T_alloc															allocator_type; //* We actually need the mapped_type allocator to get the right size_type
 			typedef N_alloc															allocator_nodes;
 			typedef typename allocator_type::size_type								size_type;
-			typedef typename ft::RBT_iterator<Node>									iterator; //! Besoin de rendre les fonctions en const 
+			typedef typename ft::RBT_iterator<Node>									iterator;
 			typedef typename ft::const_RBT_iterator<Node>							const_iterator;
 			typedef typename Node::Node_pointer										Node_pointer;
 			typedef typename Node::const_Node_pointer								const_Node_pointer;
@@ -77,7 +77,7 @@ namespace	ft
 			//* Destructor
 			~RBT( void )
 			{
-				
+				clear();
 			}
 
 			//* Operator =
@@ -92,6 +92,7 @@ namespace	ft
 				return *this;
 			}
 			
+			//* Iterators
 			iterator end( void )
 			{
 				return iterator(NULL, _maximum(_root));
@@ -112,11 +113,101 @@ namespace	ft
 				return const_iterator(_minimum(_root), NULL);	
 			}
 
-			void clear( void )
+			//* Insertion
+
+			ft::pair<iterator,bool> insert( const value_type & data )
 			{
-				_root = _recursive_dump(_root);
+				if ( _root == NULL ) //* If the tree is empty or not
+				{
+					_root = _alloc.allocate(sizeof(Node_pointer) * 1);
+					_alloc.construct(_root, Node(data));
+					_root->color = BLACK;
+					return ft::make_pair<iterator, bool>(iterator(_root, NULL), true);
+				}
+				else
+				{
+					Node_pointer x = _root;
+					Node_pointer y = NULL;
+					while ( x )
+					{
+						y = x;
+						if (_cmp(x->data.first, data.first))
+							x = x->right;
+						else if (_cmp(data.first, x->data.first))
+							x = x->left;
+						else // * Else it already exist !
+							return ft::make_pair<iterator, bool>(iterator(NULL, NULL), false);
+					}
+					x = _alloc.allocate(sizeof(Node_pointer) * 1);
+					_alloc.construct(x, Node(data));
+					x->parent = y;
+					if (_cmp(y->data.first, x->data.first))
+						y->right = x;
+					else
+						y->left = x;
+					_insert_fix(x);
+					return ft::make_pair<iterator, bool>(iterator(x, NULL), true);
+				}
 			}
 
+			//* Erasing
+
+			ft::pair<iterator,bool> erase( const key_type & key ) //! Il faut placer le pointeur del a la data recu en parametre, et le destruire si il existe.
+			{
+				Node_pointer del = _root;
+
+				while ( del && del->data.first != key )
+				{
+					if (_cmp(key, del->data.first))
+						del = del->left;
+					else if (_cmp(del->data.first, key))
+						del = del->right;
+				}
+				if ( del == NULL )
+					return ft::make_pair<iterator, bool>(iterator(NULL, NULL), false);
+
+				Node_pointer x;
+				Node_pointer y = del;
+				int	old_color = y->color;
+							
+				if ( del->left == NULL )
+				{
+					x = del->right;
+					_transplant(del, del->right);
+				}
+				else if ( del->right == NULL )
+				{
+					x = del->left;
+					_transplant(del, del->left);
+				}
+				else
+				{
+					y = _minimum(del->right);
+					old_color = y->color;
+					x = y->right;
+					if ( x && y->parent == del )
+						x->parent = y;
+					else
+					{
+						_transplant(y, y->right);
+						y->right = del->right;
+						if (y->right)
+							y->right->parent = y;
+					}
+					_transplant(del, y);
+					y->left = del->left;
+					if (y->left)
+						y->left->parent = y;
+					y->color = del->color;
+				}
+				_alloc.destroy(del);
+				_alloc.deallocate(del, sizeof(Node_pointer) * 1);
+				if ( old_color == BLACK )
+					_erase_fix(x);
+				return ft::make_pair<iterator, bool>(iterator(x, NULL), true);
+			}
+
+			//* Swap			
 			void swap( Node_pointer x )
 			{
 				Node_pointer		_root_tmp = _root;
@@ -131,6 +222,14 @@ namespace	ft
 				x._cmp = _cmp_tmp;
 				x._alloc = _alloc_tmp;
 			}
+
+			//* Clear
+			void clear( void )
+			{
+				_root = _recursive_dump(_root);
+			}
+
+			//* Operations
 
 			iterator find ( const key_type & k )
 			{
@@ -232,100 +331,6 @@ namespace	ft
 				return b;
 			}
 
-			//* Insertion
-
-			ft::pair<iterator,bool> insert( const value_type & data )
-			{
-				if ( _root == NULL ) //* If the tree is empty or not
-				{
-					_root = _alloc.allocate(sizeof(value_type) * 1);
-					_alloc.construct(_root, Node(data));
-					_root->color = BLACK;
-					return ft::make_pair<iterator, bool>(iterator(_root, NULL), true);
-				}
-				else
-				{
-					Node_pointer x = _root;
-					Node_pointer y = NULL;
-					while ( x )
-					{
-						y = x;
-						if (_cmp(x->data.first, data.first))
-							x = x->right;
-						else if (_cmp(data.first, x->data.first))
-							x = x->left;
-						else // * Else it already exist !
-							return ft::make_pair<iterator, bool>(iterator(NULL, NULL), false);
-					}
-					x = _alloc.allocate(sizeof(value_type) * 1);
-					_alloc.construct(x, Node(data));
-					x->parent = y;
-					if (_cmp(y->data.first, x->data.first))
-						y->right = x;
-					else
-						y->left = x;
-					_insert_fix(x);
-					return ft::make_pair<iterator, bool>(iterator(x, NULL), true);
-				}
-			}
-
-			//* Erasing
-
-			ft::pair<iterator,bool> erase( const key_type & key ) //! Il faut placer le pointeur del a la data recu en parametre, et le destruire si il existe.
-			{
-				Node_pointer del = _root;
-
-				while ( del && del->data.first != key )
-				{
-					if (_cmp(key, del->data.first))
-						del = del->left;
-					else if (_cmp(del->data.first, key))
-						del = del->right;
-				}
-				if ( del == NULL )
-					return ft::make_pair<iterator, bool>(iterator(NULL, NULL), false);
-
-				Node_pointer x;
-				Node_pointer y = del;
-				int	old_color = y->color;
-							
-				if ( del->left == NULL )
-				{
-					x = del->right;
-					_transplant(del, del->right);
-				}
-				else if ( del->right == NULL )
-				{
-					x = del->left;
-					_transplant(del, del->left);
-				}
-				else
-				{
-					y = _minimum(del->right);
-					old_color = y->color;
-					x = y->right;
-					if ( x && y->parent == del )
-						x->parent = y;
-					else
-					{
-						_transplant(y, y->right);
-						y->right = del->right;
-						if (y->right)
-							y->right->parent = y;
-					}
-					_transplant(del, y);
-					y->left = del->left;
-					if (y->left)
-						y->left->parent = y;
-					y->color = del->color;
-				}
-				_alloc.destroy(del);
-				_alloc.deallocate(del, sizeof(value_type) * 1);
-				if ( old_color == BLACK )
-					_erase_fix(x);
-				return ft::make_pair<iterator, bool>(iterator(x, NULL), true);
-			}
-
 		private:
 			Node_pointer		_root;
 			key_compare			_cmp;
@@ -386,21 +391,22 @@ namespace	ft
 					v->parent = u->parent;
 			}
 
+			//* Tree Eradication
 			Node_pointer _recursive_dump( Node_pointer start )
 			{
 				if (!start)
 					return NULL;
 				if ( start->right )
-					return _recursive_dump(start->right);
+					_recursive_dump(start->right);
 				if ( start->left )
-					return _recursive_dump(start->left);
+					_recursive_dump(start->left);
 				_alloc.destroy(start);
 				_alloc.deallocate(start, sizeof(Node_pointer) * 1);
 				return NULL;
 			}
 
 			//* Find the maximum from a node
-			Node_pointer _maximum( Node_pointer start )
+			Node_pointer _maximum( Node_pointer start ) const
 			{
 				if (!start)
 					return NULL;
@@ -410,7 +416,7 @@ namespace	ft
 			}
 
 			//* Find the minimum from a node
-			Node_pointer _minimum( Node_pointer start )
+			Node_pointer _minimum( Node_pointer start ) const
 			{
 				if (!start)
 					return NULL;

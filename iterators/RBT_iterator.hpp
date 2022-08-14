@@ -6,7 +6,7 @@
 /*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 18:28:49 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/14 02:43:29 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/14 17:38:36 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ namespace ft
 			return *this;
 		}
 
-		const_RBT_iterator & operator++( int )
+		const_RBT_iterator operator++( int )
 		{
 			const_RBT_iterator tmp = *this;
 			
@@ -253,7 +253,7 @@ namespace ft
 			return *this;
 		}
 
-		const_RBT_iterator & operator--( int )
+		const_RBT_iterator operator--( int )
 		{
 			const_RBT_iterator tmp = *this;
 			

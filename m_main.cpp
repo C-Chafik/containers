@@ -6,7 +6,7 @@
 /*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 15:04:58 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/14 02:32:43 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/14 15:27:02 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,15 @@ int main( void )
         std::cout << "LOWER BOUND : " << ret.first->first << std::endl;
 
         std::cout << "UPPER BOUND : " << ret.second->first << std::endl; 
-         
+    }
+
+    {
+        std::cout << REDD << " <==> TESTING MAP CONSTRUCTOR <==> " << std::endl;
+        
+        NM::map<std::string, int> empty;
+
+        NM::map<std::string, int> range(Tester.begin(), Tester.end());
+        
+        NM::map<std::string, int> copy(range);
     }
 }
