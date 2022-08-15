@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
+/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 19:51:12 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/14 17:39:50 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/15 15:40:07 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include "iterators/iterator_traits.hpp"
 # include "iterators/bidirectional_iterator.hpp"
 # include "iterators/RBT_iterator.hpp"
+# include "iterators/reverse_iterator.hpp"
 # include "utils/red_black_tree.hpp"
 
 namespace ft
@@ -79,12 +80,12 @@ namespace ft
 				while ( first != last )
 				{
 					insert(*first);
-					first++;	
+					first++;
 				}
 			}
 
 			//* Copy Constructor
-			map( const map & x )
+			map( const map & x ) : _size(0)
 			{
 				*this = x;    
 			}
@@ -175,7 +176,7 @@ namespace ft
 			//* Max_size
 			size_type max_size( void ) const
 			{
-				return _alloc.max_size();
+				return _root.max_size();
 			}
 
 			//** Element access
@@ -191,8 +192,8 @@ namespace ft
 			//* Single element Insert
 			ft::pair<iterator,bool> insert( const value_type & val )
 			{
-				ft::pair<iterator,bool> ret =  _root.insert(val);
-				if ( ret.second == true )
+				ft::pair<iterator,bool> ret = _root.insert(val);
+				if ( ret.second )
 					_size++;
 				return ret;
 			}
@@ -200,7 +201,7 @@ namespace ft
 			//* Single element Insert with hint
 			iterator insert( iterator position, const value_type & val )
 			{(void) position;
-				return _root.insert(val).first;
+				return insert(val).first;
 			}
 
 			//* Range Insert
@@ -209,7 +210,7 @@ namespace ft
 			{
 				while ( first != last )
 				{
-					_root.insert(*first);
+					insert(*first);
 					first++;
 				}
 			}
@@ -217,7 +218,7 @@ namespace ft
 			//* Erase with position
 			void erase( iterator position )
 			{
-				_root.erase(position->first);
+				erase(position->first);
 			}
 
 			//* Erase with key
@@ -240,7 +241,7 @@ namespace ft
 				{
 					tmp = first;
 					first++;
-					_root.erase(tmp->first);
+					erase(tmp->first);
 				}
 			}
 
@@ -268,6 +269,7 @@ namespace ft
 			void clear( void )
 			{
 				_root.clear();
+				_size = 0;
 			}
 
 			//** Observers
@@ -359,6 +361,8 @@ namespace ft
 	template < class Key, class T, class Compare, class Alloc >
 	bool operator==( const map<Key, T, Compare, Alloc> & lhs, const map<Key, T, Compare, Alloc> & rhs )
 	{
+		if ( lhs.size() != rhs.size() )
+			return false;
 		typename map<Key, T, Compare, Alloc>::const_iterator it = lhs.begin();
 		typename map<Key, T, Compare, Alloc>::const_iterator ite = lhs.end();
 		typename map<Key, T, Compare, Alloc>::const_iterator rit = rhs.begin();
@@ -375,10 +379,40 @@ namespace ft
 		return true;
 	}
 
+	template <class Key, class T, class Compare, class Alloc>
+  	void swap( map<Key,T,Compare,Alloc> & x, map<Key,T,Compare,Alloc> & y )
+	{
+		x.swap(y);
+	}
+
 	template < class Key, class T, class Compare, class Alloc >
 	bool operator!=( const map<Key, T, Compare, Alloc> & lhs, const map<Key, T, Compare, Alloc> & rhs )
 	{
 		return !(lhs == rhs);
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+  	bool operator<( const map<Key,T,Compare,Alloc> & lhs, const map<Key,T,Compare,Alloc> & rhs )
+	{
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+  	bool operator<=( const map<Key,T,Compare,Alloc> & lhs, const map<Key,T,Compare,Alloc> & rhs )
+	{
+		return !(rhs < lhs);
+	}
+	
+	template <class Key, class T, class Compare, class Alloc>
+  	bool operator>( const map<Key,T,Compare,Alloc> & lhs, const map<Key,T,Compare,Alloc> & rhs )
+	{
+		return rhs < lhs;
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+  	bool operator>=( const map<Key,T,Compare,Alloc> & lhs, const map<Key,T,Compare,Alloc> & rhs )
+	{
+		return !(lhs < rhs);
 	}
 }
 

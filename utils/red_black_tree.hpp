@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   red_black_tree.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
+/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:19:57 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/14 16:08:49 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/15 15:42:23 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,11 @@ namespace	ft
 				return const_iterator(_minimum(_root), NULL);	
 			}
 
+			size_type max_size( void ) const
+			{
+				return _alloc.max_size();
+			}
+
 			//* Insertion
 
 			ft::pair<iterator,bool> insert( const value_type & data )
@@ -136,7 +141,7 @@ namespace	ft
 						else if (_cmp(data.first, x->data.first))
 							x = x->left;
 						else // * Else it already exist !
-							return ft::make_pair<iterator, bool>(iterator(NULL, NULL), false);
+							return ft::make_pair<iterator, bool>(iterator(x, NULL), false);
 					}
 					x = _alloc.allocate(sizeof(Node_pointer) * 1);
 					_alloc.construct(x, Node(data));
@@ -162,10 +167,12 @@ namespace	ft
 						del = del->left;
 					else if (_cmp(del->data.first, key))
 						del = del->right;
+					else
+						break ;
 				}
 				if ( del == NULL )
 					return ft::make_pair<iterator, bool>(iterator(NULL, NULL), false);
-
+				
 				Node_pointer x;
 				Node_pointer y = del;
 				int	old_color = y->color;
@@ -208,7 +215,7 @@ namespace	ft
 			}
 
 			//* Swap			
-			void swap( Node_pointer x )
+			void swap( RBT & x )
 			{
 				Node_pointer		_root_tmp = _root;
 				key_compare			_cmp_tmp = _cmp;
@@ -258,9 +265,9 @@ namespace	ft
 					else if (_cmp(k, x->data.first))
 							x = x->left;
 					else // * Found it!
-						return iterator(x, NULL);
+						return const_iterator(x, NULL);
 				}
-				return end();
+				return const_end();
 			}
 
 			size_type count( const key_type & k ) const
@@ -285,7 +292,7 @@ namespace	ft
 				iterator e = end();
 				while ( b != e)
 				{
-					if ( _cmp(b->first, k) == false )
+					if (!_cmp(b->first, k))
 						return b;
 					b++;
 				}
@@ -294,11 +301,11 @@ namespace	ft
 
 			const_iterator lower_bound ( const key_type & k ) const
 			{
-				const_iterator b = begin();
-				const_iterator e = end();
+				const_iterator b = const_begin();
+				const_iterator e = const_end();
 				while ( b != e)
 				{
-					if ( _cmp(b->first, k) == false )
+					if (!_cmp(b->first, k))
 						return b;
 					b++;
 				}
@@ -311,7 +318,7 @@ namespace	ft
 				iterator e = end();
 				while ( b != e)
 				{
-					if ( _cmp(k, b->first) == true )
+					if (_cmp(k, b->first))
 						return b;
 					b++;
 				}
@@ -320,11 +327,11 @@ namespace	ft
 
 			const_iterator upper_bound ( const key_type & k ) const
 			{
-				const_iterator b = begin();
-				const_iterator e = end();
+				const_iterator b = const_begin();
+				const_iterator e = const_end();
 				while ( b != e)
 				{
-					if ( _cmp(b->first, k) == true )
+					if (_cmp(k, b->first))
 						return b;
 					b++;
 				}
@@ -511,15 +518,15 @@ namespace	ft
 							if ( w->right )
 								w->right->color = BLACK;
 							_rotate_left(x->parent);
-							_root = x;		
+							x = _root;		
 						}
 					}
 					else
 					{
 						Node_pointer w = x->parent->left;
-						if ( x->parent->left->color == RED )
+						if ( w->color == RED )
 						{
-							x->parent->left->color = BLACK;
+							w->color = BLACK;
 							x->parent->color = RED;
 							_rotate_right(x->parent);
 							w = x->parent->left;
@@ -543,7 +550,7 @@ namespace	ft
 							if ( w->left )
 								w->left->color = BLACK;
 							_rotate_right(x->parent);
-							_root = x;		
+							x = _root;		
 						}
 					}
 				}

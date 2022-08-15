@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   m_main.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
+/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 15:04:58 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/14 15:27:02 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/15 15:37:16 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,28 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-# include "utils/is_integral.hpp"
-# include "utils/pair.hpp"
-# include "utils/make_pair.hpp"
-# include "utils/lexicographical_compare.hpp"
-# include "utils/equal.hpp"
-# include "utils/enable_if.hpp"
-# include "iterators/iterator_traits.hpp"
-# include "iterators/reverse_iterator.hpp"
+// # include "utils/is_integral.hpp"
+// # include "utils/pair.hpp"
+// # include "utils/make_pair.hpp"
+// # include "utils/lexicographical_compare.hpp"
+// # include "utils/equal.hpp"
+// # include "utils/enable_if.hpp"
+// # include "iterators/iterator_traits.hpp"
+// # include "iterators/reverse_iterator.hpp"
 #include "map.hpp"
 #include <map>
+
+namespace ft
+{
+    template < class T >
+    struct greater
+    {
+        bool operator()( const T & a, const T & b ) const
+        {
+            return a > b;
+        }
+    };
+}
 
 int main( void )
 {
@@ -294,5 +306,47 @@ int main( void )
         NM::map<std::string, int> range(Tester.begin(), Tester.end());
         
         NM::map<std::string, int> copy(range);
+    }
+
+    {
+        std::cout << REDD << " <==> TESTING MAP WITH A CUSTOM KEY COMPARE <==> " << std::endl;
+
+        NM::map<std::string, int, ft::greater<std::string> > test(Tester.begin(), Tester.end());
+        NM::map<std::string, int> test2(Tester.begin(), Tester.end());
+        NM::map<std::string, int> test3(Tester.begin(), Tester.end());
+
+        std::cout << GREEN << " MAP WITH GREATER THAN: ";
+        for ( NM::map<std::string, int>::iterator it = test.begin() ; it != test.end() ; it++ )
+        {
+            std::cout << it->first << " ";
+        }
+        std::cout << std::endl;
+
+        std::cout << GREEN << " MAP WITH LESS THAN: ";
+        for ( NM::map<std::string, int>::iterator it = test2.begin() ; it != test2.end() ; it++ )
+        {
+            std::cout << it->first << " ";
+        }
+        std::cout << std::endl;
+        
+        std::cout << " MAX SIZE : " << test.max_size() << std::endl;
+        std::cout << " SIZE : " << test.size() << std::endl;
+
+        test.erase(test.begin(), test.end());
+
+        test2.insert(NM::make_pair<std::string, int>("Keyy1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Keyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("lol", 72));
+        test2.insert(NM::make_pair<std::string, int>("lol", 72));
+
+        test["lol"] = 48;
+        // test["lol"] = 48;
+
+        if ( test3 > test2 )
+            std::cout << " is inferior " << std::endl;
+        else
+            std::cout << " is superior" << std::endl;
+
+        test3.swap(test2);
     }
 }
