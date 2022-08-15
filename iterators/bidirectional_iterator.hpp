@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 15:27:04 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/09 16:45:42 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/15 20:22:39 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 namespace ft
 {
     template <class Iterator>
-    class bidirectional_iterator
+    class bidirectional_iterator : ft::bidirectional_iterator_tag
     {
         public:
             typedef Iterator iterator_type;

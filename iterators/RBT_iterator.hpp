@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBT_iterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
+/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 18:28:49 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/14 17:38:36 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/15 20:29:06 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define RBT_ITERATOR_HPP
 
 # include "../iterators/bidirectional_iterator.hpp"
+# include "../iterators/iterator_traits.hpp"
 
 namespace ft
 {
@@ -23,10 +24,10 @@ namespace ft
         public:													
             typedef Iterator* 																		iterator_type;
 			typedef typename Iterator::value_type 															value_type;
-            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::iterator_category iterator_category;
-            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::difference_type 	difference_type;
-            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::pointer 			pointer;
-            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::reference 		reference;
+            typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::iterator_category iterator_category;
+            typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::difference_type 	difference_type;
+            typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::pointer 			pointer;
+            typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::reference 		reference;
 
         RBT_iterator( void ) 
 		: 	_node(NULL),
@@ -106,12 +107,12 @@ namespace ft
 			return tmp;
 		}
 
-		bool operator==( const RBT_iterator & rhs )
+		bool operator==( const RBT_iterator & rhs ) const
 		{
 			return _node == rhs._node;
 		}
-
-		bool operator!=( const RBT_iterator & rhs )
+		
+		bool operator!=( const RBT_iterator & rhs ) const
 		{
 			return _node != rhs._node;
 		}
@@ -168,10 +169,10 @@ namespace ft
         public:
             typedef const Iterator* 																		iterator_type;
 			typedef typename Iterator::value_type 													const value_type;
-            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::iterator_category iterator_category;
-            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::difference_type 	difference_type;
-            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::pointer 			pointer;
-            typedef typename ft::iterator< bidirectional_iterator_tag, value_type>::reference 		reference;
+            typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::iterator_category iterator_category;
+            typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::difference_type 	difference_type;
+            typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::pointer 			pointer;
+            typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::reference 		reference;
 		
         const_RBT_iterator( void )
 		: 	_node(NULL),
@@ -261,12 +262,12 @@ namespace ft
 			return tmp;
 		}
 
-		bool operator==( const const_RBT_iterator & rhs )
+		bool operator==( const const_RBT_iterator & rhs ) const
 		{
 			return _node == rhs._node;
 		}
 
-		bool operator!=( const const_RBT_iterator & rhs )
+		bool operator!=( const const_RBT_iterator & rhs ) const
 		{
 			return _node != rhs._node;
 		}

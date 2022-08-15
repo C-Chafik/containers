@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 15:04:58 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/15 15:37:16 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/15 22:11:55 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,7 +313,13 @@ int main( void )
 
         NM::map<std::string, int, ft::greater<std::string> > test(Tester.begin(), Tester.end());
         NM::map<std::string, int> test2(Tester.begin(), Tester.end());
-        NM::map<std::string, int> test3(Tester.begin(), Tester.end());
+        NM::map<std::string, int> test3;
+
+        test3["1"] = 1;
+        test3["2"] = 1;
+        test3["3"] = 1;
+        test3["4"] = 1;
+        test3["5"] = 1;
 
         std::cout << GREEN << " MAP WITH GREATER THAN: ";
         for ( NM::map<std::string, int>::iterator it = test.begin() ; it != test.end() ; it++ )
@@ -334,19 +340,108 @@ int main( void )
 
         test.erase(test.begin(), test.end());
 
-        test2.insert(NM::make_pair<std::string, int>("Keyy1", 72));
-        test2.insert(NM::make_pair<std::string, int>("Keyy0", 72));
-        test2.insert(NM::make_pair<std::string, int>("lol", 72));
-        test2.insert(NM::make_pair<std::string, int>("lol", 72));
-
-        test["lol"] = 48;
-        // test["lol"] = 48;
+        test2.insert(NM::make_pair<std::string, int>("1", 72));
+        test2.insert(NM::make_pair<std::string, int>("2", 72));
+        test2.insert(NM::make_pair<std::string, int>("4", 72));
+        test2.insert(NM::make_pair<std::string, int>("4l", 72));
+        test2.insert(NM::make_pair<std::string, int>("Ke5y1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kdsfeyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("ldfsfol", 72));
+        test2.insert(NM::make_pair<std::string, int>("ldsfdsol", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kefdsfsdyy1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kefdsfsdfyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("losdfl", 72));
+        test2.insert(NM::make_pair<std::string, int>("lofsdl", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kfsdeyy1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kefsdyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("lofsdl", 72));
+        test2.insert(NM::make_pair<std::string, int>("lofdsl", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kesdfyy1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Ksdfeyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("lsdfol", 72));
+        test2.insert(NM::make_pair<std::string, int>("lsdfol", 72));
+        test2.insert(NM::make_pair<std::string, int>("4ewql", 72));
+        test2.insert(NM::make_pair<std::string, int>("Keewq5y1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kdewqsfeyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("ldewqfsfol", 72));
+        test2.insert(NM::make_pair<std::string, int>("ldewqsfdsol", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kefdsewqfsdyy1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kefdsfsdewqfyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("losdfewql", 72));
+        test2.insert(NM::make_pair<std::string, int>("lofsdewql", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kfsewqdeyy1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Keewqfsdyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("loeqwqfsdl", 72));
+        test2.insert(NM::make_pair<std::string, int>("loewqfdsl", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kesdfywy1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Ksdefeyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("lsedfol", 72));
+        test2.insert(NM::make_pair<std::string, int>("leqsdefol", 72));
+        test2.insert(NM::make_pair<std::string, int>("4el", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kee5y1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kddsasfeyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("ldcxsfol", 72));
+        test2.insert(NM::make_pair<std::string, int>("ld sfdsol", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kedsafzxdsfsdyy1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kefcxzdsfsdfyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("loxzcsdfl", 72));
+        test2.insert(NM::make_pair<std::string, int>("lofdassdl", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kfsdsadeyy1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Kefdsasdyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("loddddfsdl", 72));
+        test2.insert(NM::make_pair<std::string, int>("lodffdsl", 72));
+        test2.insert(NM::make_pair<std::string, int>("Keddsdfyy1", 72));
+        test2.insert(NM::make_pair<std::string, int>("Ksdddfeyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("lsdfdol", 72));
+        test2.insert(NM::make_pair<std::string, int>("lsddfol", 72));
+        test2.insert(NM::make_pair<std::string, int>("Ksddddddfeyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("lsdfdddol", 72));
+        test2.insert(NM::make_pair<std::string, int>("lsdddddfol", 72));
+        test2.insert(NM::make_pair<std::string, int>("Ksddddfeyy0", 72));
+        test2.insert(NM::make_pair<std::string, int>("lsdddfdddol", 72));
+        test2.insert(NM::make_pair<std::string, int>("lsdddfol", 72));
+        test2.insert(NM::make_pair<std::string, int>("lsddddddfol", 72));
 
         if ( test3 > test2 )
             std::cout << " is inferior " << std::endl;
         else
             std::cout << " is superior" << std::endl;
 
+
+        std::cout << "test3 size :" << test3.size() << std::endl;
+        std::cout << "test2 size :" << test2.size() << std::endl;
+
+        // test2.swap(test3);
+
         test3.swap(test2);
+
+         std::cout << "test3 size :" << test3.size() << std::endl;
+        std::cout << "test2 size :" << test2.size() << std::endl;
+
+        std::cout << "test2 :" << std::endl;
+        for ( NM::map< const std::string, int>::const_iterator it = test2.begin() ; it != test2.end() ; it++ )
+        {
+            std::cout << it->first << " ";
+        }
+        std::cout << std::endl;
+
+        std::cout << "reverse test2 :" << std::endl;
+        for ( NM::map< const std::string, int>::const_reverse_iterator it = test2.rbegin() ; it != test2.rend() ; it++ )
+        {
+            std::cout << it->first << " ";
+        }
+        std::cout << std::endl;
+
+        std::cout << "test3 :" << std::endl;
+        for ( NM::map< const std::string, int>::const_iterator it = test3.begin() ; it != test3.end() ; it++ )
+        {
+            std::cout << it->first << " ";
+        }
+        std::cout << std::endl;
+        std::cout << "reverse test3 :" << std::endl;
+        for ( NM::map< const std::string, int>::const_reverse_iterator it = test3.rbegin() ; it != test3.rend() ; it++ )
+        {
+            std::cout << it->first << " ";
+        }
     }
 }

@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:19:57 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/15 15:42:23 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/15 22:34:48 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -514,7 +514,8 @@ namespace	ft
 								w = x->parent->right;
 							}
 							w->color = x->parent->color;
-							x->parent->parent->color = BLACK;
+							if ( x->parent->parent )
+								x->parent->parent->color = BLACK;
 							if ( w->right )
 								w->right->color = BLACK;
 							_rotate_left(x->parent);
@@ -546,7 +547,8 @@ namespace	ft
 								w = x->parent->left;
 							}
 							w->color = x->parent->color;
-							x->parent->parent->color = BLACK;
+							if ( x->parent->parent )
+								x->parent->parent->color = BLACK;
 							if ( w->left )
 								w->left->color = BLACK;
 							_rotate_right(x->parent);

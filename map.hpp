@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 19:51:12 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/15 15:40:07 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/15 22:28:54 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,26 +136,22 @@ namespace ft
 
 			reverse_iterator rbegin( void )
 			{
-				reverse_iterator rbegin(_root.end());
-				
-				return rbegin;
+				return reverse_iterator(_root.end());
 			}
 			
 			const_reverse_iterator rbegin( void ) const
 			{
-				const_reverse_iterator rbegin(_root.end());
-				
-				return rbegin;
+				return const_reverse_iterator(_root.const_end());
 			}
 
 			reverse_iterator rend( void )
 			{
-				return reverse_iterator( _root.begin());
+				return reverse_iterator(_root.begin());
 			}
 
 			const_reverse_iterator rend( void ) const
 			{
-				return reverse_iterator( _root.begin());	
+				return const_reverse_iterator(_root.const_begin());	
 			}
 
 
@@ -197,7 +193,7 @@ namespace ft
 					_size++;
 				return ret;
 			}
-
+			
 			//* Single element Insert with hint
 			iterator insert( iterator position, const value_type & val )
 			{(void) position;
@@ -214,7 +210,7 @@ namespace ft
 					first++;
 				}
 			}
-
+			
 			//* Erase with position
 			void erase( iterator position )
 			{
@@ -248,21 +244,18 @@ namespace ft
 			//* Swap
 			void swap( map & x )
 			{
-				if ( *this != x )
-				{
-					size_type       			_size_tmp = _size;
-					key_compare    	     		_cmp_tmp = _cmp;
-					allocator_type  			_alloc_tmp = _alloc;
+				size_type       			_size_tmp = _size;
+				key_compare    	     		_cmp_tmp = _cmp;
+				allocator_type  			_alloc_tmp = _alloc;
 
-					_size = x._size;
-					_cmp = x._cmp;
-					_alloc = x._alloc;
+				_size = x._size;
+				_cmp = x._cmp;
+				_alloc = x._alloc;
 
-					x._size = _size_tmp;
-					x._cmp = _cmp_tmp;
-					x._alloc = _alloc_tmp;
-					_root.swap(x._root);
-				}
+				x._size = _size_tmp;
+				x._cmp = _cmp_tmp;
+				x._alloc = _alloc_tmp;
+				_root.swap(x._root);
 			}
 
 			//* Clear
@@ -358,6 +351,14 @@ namespace ft
 		
 	};
 
+	template <class Key, class T, class Compare, class Alloc>
+  	void swap( map<Key,T,Compare,Alloc> & x, map<Key,T,Compare,Alloc> & y )
+	{
+		if ( x == y )
+			return ;
+		x.swap(y);
+	}
+
 	template < class Key, class T, class Compare, class Alloc >
 	bool operator==( const map<Key, T, Compare, Alloc> & lhs, const map<Key, T, Compare, Alloc> & rhs )
 	{
@@ -377,12 +378,6 @@ namespace ft
 		if ( it != ite || rit != rhs.end() )
 			return false;
 		return true;
-	}
-
-	template <class Key, class T, class Compare, class Alloc>
-  	void swap( map<Key,T,Compare,Alloc> & x, map<Key,T,Compare,Alloc> & y )
-	{
-		x.swap(y);
 	}
 
 	template < class Key, class T, class Compare, class Alloc >

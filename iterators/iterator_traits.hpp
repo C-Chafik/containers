@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator_traits.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
+/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 12:58:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/13 16:45:17 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/15 20:24:49 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ namespace ft
         
     };
     
-    struct input_iterator_tag 
+    struct input_iterator_tag
     {
         
     };

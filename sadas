@@ -1,0 +1,1 @@
+m2.insert(input_iterator<typename C::iterator>(it1), input_iterator<typename C::iterator>(it2));
