@@ -1,6 +1,6 @@
-FT		= m_main.cpp
+FT		= st_main.cpp
 
-STL		= m_main.cpp
+STL		= st_main.cpp
 
 RM 			= rm -f
 
