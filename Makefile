@@ -1,8 +1,12 @@
-FT		= st_main.cpp
+FT		= mains/s_main.cpp
 
-STL		= st_main.cpp
+STL		= mains/s_main.cpp
 
-RM 			= rm -f
+# FT		= ite_n0b.cpp
+
+# STL		= ite_n0b.cpp
+
+RM 			= rm -rf
 
 FLAGS 		= -Wall -Wextra -Werror -g -std=c++98 -O0 #-fsanitize=address
 
