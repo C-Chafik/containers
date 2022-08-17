@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:19:57 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/15 22:34:48 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/17 15:01:21 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ enum	e_RB
 };
 
 //? RBT <=> Red_Black_Tree
-
+	
 namespace	ft
 {
-    template < class T, class Compare, class Node = Node<T>, class T_alloc = std::allocator<T>, class N_alloc = std::allocator<Node> > 
+    template < class T, class Compare, class Alloc, class Node = Node<T> > 
     class RBT
     {
         public:
@@ -47,8 +47,8 @@ namespace	ft
 			typedef typename value_type::first_type									key_type;
 			typedef typename value_type::second_type								mapped_type;
 			typedef Compare															key_compare;
-			typedef T_alloc															allocator_type; //* We actually need the mapped_type allocator to get the right size_type
-			typedef N_alloc															allocator_nodes;
+			typedef Alloc															allocator_type;
+			typedef typename Alloc::template rebind<Node>::other 					allocator_nodes;
 			typedef typename allocator_type::size_type								size_type;
 			typedef typename ft::RBT_iterator<Node>									iterator;
 			typedef typename ft::const_RBT_iterator<Node>							const_iterator;

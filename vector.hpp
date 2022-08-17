@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/06 19:47:58 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/17 17:03:28 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,16 +218,18 @@ namespace ft
                 if (capacity() == 0)
                     reserve(1);
                 else if (size() + 1 > capacity())
-                    reserve(capacity() * 2);
+                    reserve(size() * 2);
                 
                 position = _start + sp;
                 for ( pointer tmp_end = _end ; tmp_end != position; tmp_end-- )
                 {
                     _alloc.construct(tmp_end, *(tmp_end - 1)); 
-                    _alloc.destroy(tmp_end);
+                    _alloc.destroy(tmp_end - 1);
                 }
                 _alloc.construct(position, val);
                 _end = _end + 1;
+                                
+                insert(position, 1, val);
                 return position;
             }
 

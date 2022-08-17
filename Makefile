@@ -1,10 +1,6 @@
-FT		= mains/s_main.cpp
+FT		= mains/map_main.cpp
 
-STL		= mains/s_main.cpp
-
-# FT		= ite_arrow.cpp
-
-# STL		= ite_arrow.cpp
+STL		= mains/map_main.cpp
 
 RM 			= rm -rf
 

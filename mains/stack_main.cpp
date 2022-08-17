@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   st_main.cpp                                        :+:      :+:    :+:   */
+/*   stack_main.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 13:26:18 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/16 15:44:43 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/17 15:35:29 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #else
     #define NM ft
 #endif
-
 
 #define BLACK   "\033[1m\033[30m"
 #define RED     "\033[1m\033[31m"
@@ -38,30 +37,5 @@
 
 int main( void )
 {
-    NM::stack<int, std::list<int> > stack;
-    NM::stack<int, std::list<int> > stack2;
-    
-    {
-        stack.push(154);
-        stack.push(104);
-        stack.push(141);
-        stack.push(14564);
-        stack.push(415);
-        stack.push(151644);
-        stack.push(1124);
-        stack.push(140);
-
-        std::cout << "Stack empty or not : " << stack.empty() << std::endl;
-        
-        std::cout << "Stack size : " << stack.size() << std::endl;
-
-        std::cout << "Stack back : " << stack.top() << std::endl;
-        
-        if ( stack != stack2 )
-            std::cout << " stack is different from stack 2 " << std::endl;
-        else
-            std::cout << " stack is equal to stack 2 " << std::endl;
-    }
-
     return 0;
 }

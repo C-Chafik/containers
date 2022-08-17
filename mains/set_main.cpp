@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   s_main.cpp                                         :+:      :+:    :+:   */
+/*   set_main.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:59:04 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/17 13:36:47 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/17 15:35:12 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #else
     #define NM ft
 #endif
-
 
 #define BLACKK  "\033[1m\033[30m"
 #define REDD    "\033[1m\033[31m"
@@ -47,27 +46,7 @@ namespace ft
 
 int main( void )
 {
-    NM::set<int> set;
-
-    NM::set<int>::iterator it = set.begin(); (void)it;
-    NM::set<int>::const_iterator cit = set.begin(); (void)cit;
-    
-    // set.insert(1);
-    // set.insert(10);
-    // set.insert(20);
-    // set.insert(7800);
-    // set.insert(7800000);
-
-    // NM::set<int> cpy_set(set);
-    // NM::set<int> rset(set.begin(), set.end());
-
-    {
-        // set.find(10);
-        // set.lower_bound(-1);
-        // set.upper_bound(10);
-        // set.equal_range(10);
-
-    }
+    return 0;
 }
 
 

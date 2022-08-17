@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 19:51:12 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/17 13:34:29 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/17 15:03:30 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,22 @@ namespace ft
 	class set
 	{
 		public:
-			typedef T 															key_type;
-			typedef T   														mapped_type;
-			typedef T	   														value_type;
-			typedef Compare 													key_compare;
-			typedef Compare 													value_compare;
-			typedef Alloc														allocator_type;
-			typedef typename    allocator_type::difference_type 				difference_type;
-			typedef typename    allocator_type::size_type 						size_type;
-			typedef typename    allocator_type::reference 						reference;
-			typedef typename    allocator_type::const_reference 				const_reference;
-			typedef typename    allocator_type::pointer 						pointer;
-			typedef typename    allocator_type::const_pointer 					const_pointer;
-			typedef typename    ft::RBT<value_type, Compare>::iterator 			iterator;
-			typedef typename    ft::RBT<value_type, Compare>::const_iterator 	const_iterator;
-			typedef typename    ft::reverse_iterator<iterator> 					reverse_iterator;
-			typedef typename    ft::reverse_iterator<const_iterator> 			const_reverse_iterator;
+			typedef T 																			key_type;
+			typedef T   																		mapped_type;
+			typedef T	   																		value_type;
+			typedef Compare 																	key_compare;
+			typedef Compare 																	value_compare;
+			typedef Alloc																		allocator_type;
+			typedef typename    allocator_type::difference_type 								difference_type;
+			typedef typename    allocator_type::size_type 										size_type;
+			typedef typename    allocator_type::reference 										reference;
+			typedef typename    allocator_type::const_reference 								const_reference;
+			typedef typename    allocator_type::pointer 										pointer;
+			typedef typename    allocator_type::const_pointer 									const_pointer;
+			typedef typename    ft::RBT<value_type, Compare, allocator_type>::iterator 			iterator;
+			typedef typename    ft::RBT<value_type, Compare, allocator_type>::const_iterator 	const_iterator;
+			typedef typename    ft::reverse_iterator<iterator> 									reverse_iterator;
+			typedef typename    ft::reverse_iterator<const_iterator> 							const_reverse_iterator;
 
 			//** Constructors / Destructor
 
@@ -318,7 +318,7 @@ namespace ft
 			}
 
 		private:
-			RBT<value_type, key_compare> _root;
+			RBT<value_type, key_compare, allocator_type> _root;
 			size_type       _size;
 			key_compare     _cmp;
 			allocator_type  _alloc;
