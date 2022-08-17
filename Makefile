@@ -2,9 +2,9 @@ FT		= mains/s_main.cpp
 
 STL		= mains/s_main.cpp
 
-# FT		= ite_n0b.cpp
+# FT		= ite_arrow.cpp
 
-# STL		= ite_n0b.cpp
+# STL		= ite_arrow.cpp
 
 RM 			= rm -rf
 

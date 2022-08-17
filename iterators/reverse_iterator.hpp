@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:12:29 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/16 21:47:57 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/17 11:22:56 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace ft
         explicit reverse_iterator( iterator_type it ) { _ptr = it; };
 
         template <class Iter>
-        reverse_iterator( const reverse_iterator<Iter>& rev_it ) { _ptr = rev_it.base(); };
+        reverse_iterator( const reverse_iterator<Iter> & rev_it ) { _ptr = rev_it.base(); };
 
         iterator_type base( void ) const
         {

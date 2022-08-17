@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 18:28:49 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/16 21:50:08 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/17 13:54:14 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ namespace ft
 			typedef typename Iterator::value_type 															value_type;
             typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::iterator_category iterator_category;
             typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::difference_type 	difference_type;
-            typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::pointer 			pointer;
-			typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::reference 			reference;
-            // typedef const value_type & reference;
+            // typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::pointer 			pointer;
+			// typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::reference 			reference;
+			typedef const value_type * 	pointer;
+            typedef const value_type & reference;
 
         SET_RBT_iterator( void ) 
 		: 	_node(NULL),
@@ -182,8 +183,9 @@ namespace ft
 			typedef typename Iterator::value_type 													const value_type;
             typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::iterator_category iterator_category;
             typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::difference_type 	difference_type;
-            typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::pointer 			pointer;
+            // typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::pointer 			pointer;
 			// typedef typename ft::iterator< std::bidirectional_iterator_tag, value_type>::reference 			reference;
+			typedef const value_type * 	pointer;
             typedef const value_type & reference;
 		
         const_SET_RBT_iterator( void )

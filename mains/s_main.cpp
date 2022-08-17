@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:59:04 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/16 21:43:32 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/17 13:36:47 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int main( void )
 {
     NM::set<int> set;
 
-    NM::set<int>::reverse_iterator it = set.begin();
-    // *it = 42;
-
+    NM::set<int>::iterator it = set.begin(); (void)it;
+    NM::set<int>::const_iterator cit = set.begin(); (void)cit;
+    
     // set.insert(1);
     // set.insert(10);
     // set.insert(20);
