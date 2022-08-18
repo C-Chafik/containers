@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 19:51:12 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/17 15:03:30 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/18 17:34:40 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ namespace ft
 	{
 		public:
 			typedef T 																			key_type;
-			typedef T   																		mapped_type;
 			typedef T	   																		value_type;
 			typedef Compare 																	key_compare;
 			typedef Compare 																	value_compare;
