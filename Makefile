@@ -1,6 +1,6 @@
-FT		= mains/set_main.cpp
+FT		= mains/vector_main.cpp
 
-STL		= mains/set_main.cpp
+STL		= mains/vector_main.cpp
 
 RM 			= rm -rf
 

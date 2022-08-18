@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 13:27:01 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/16 15:43:02 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/18 15:42:39 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 namespace ft
 {
 	template < class T, class Container = ft::vector<T> > 
-	class stack : private Container
+	class stack
 	{
 		public :
 			typedef T           value_type;
