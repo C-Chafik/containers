@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:26:47 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/18 16:04:42 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/18 17:04:10 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,20 @@ void test_constructor( void )
 	
 	std::cout << YELLOW << " DEFAULT CONSTRUCTOR " << WHITE << std::endl << std::endl;
 	NM::vector<NM::vector<int> > v1;
-	std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v1.empty() << std::endl;
+	std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | is v1 empty ? : " << v1.empty() << std::endl;
 
 	std::cout << YELLOW << " FILL CONSTRUCTOR " << WHITE << std::endl << std::endl;
 	NM::vector<int> tmp(10, 42);
 	NM::vector<NM::vector<int> > v2(10, tmp);
-	std::cout << "v2 size : " << v2.size() << " | v1 capacity : " << v2.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v2.empty() << std::endl;
+	std::cout << "v2 size : " << v2.size() << " | v1 capacity : " << v2.capacity() << " | is v1 empty ? : " << v2.empty() << std::endl;
 
 	std::cout << YELLOW << " RANGE CONSTRUCTOR " << WHITE << std::endl << std::endl;
 	NM::vector<NM::vector<int> > v3(v2.begin(), v2.end());
-	std::cout << "v3 size : " << v3.size() << " | v1 capacity : " << v3.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v3.empty() << std::endl;
+	std::cout << "v3 size : " << v3.size() << " | v1 capacity : " << v3.capacity()  << " | is v1 empty ? : " << v3.empty() << std::endl;
 
 	std::cout << YELLOW << " COPY CONSTRUCTOR " << WHITE << std::endl << std::endl;
 	NM::vector<NM::vector<int> > v4(v3);
-	std::cout << "v4 size : " << v4.size() << " | v1 capacity : " << v4.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v4.empty() << std::endl;
+	std::cout << "v4 size : " << v4.size() << " | v1 capacity : " << v4.capacity() << " | is v1 empty ? : " << v4.empty() << std::endl;
 	std::cout << std::endl;
 }
 
@@ -112,7 +112,7 @@ void test_insert( void )
 	
 	std::cout << YELLOW << " INSERT SINGLE ELEMENT " << WHITE << std::endl << std::endl;
 	{
-		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v1.empty() << std::endl << std::endl;
+		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | is v1 empty ? : " << v1.empty() << std::endl << std::endl;
 		NM::vector<std::string>::iterator ret;
 		v1.insert(v1.begin(), "lorem ipsum");
 		v1.insert(v1.begin(), "Neque porro quisquam");
@@ -129,11 +129,11 @@ void test_insert( void )
 		}
 		std::cout << std::endl;
 		std::cout << std::endl;
-		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v1.empty() << std::endl;
+		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | is v1 empty ? : " << v1.empty() << std::endl;
 	}
 	std::cout << YELLOW << " INSERT SINGLE ELEMENT " << WHITE << std::endl << std::endl;
 	{
-		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v1.empty() << std::endl << std::endl;
+		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | is v1 empty ? : " << v1.empty() << std::endl << std::endl;
 		v1.insert(v1.begin(), 10, "lorem ipsum");
 		v1.insert(v1.begin(), 7, "Neque porro quisquam");
 		v1.insert(v1.begin(), 0, "Quisque eleifend");
@@ -146,11 +146,11 @@ void test_insert( void )
 		}
 		std::cout << std::endl;
 		std::cout << std::endl;
-		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v1.empty() << std::endl;
+		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | is v1 empty ? : " << v1.empty() << std::endl;
 	}
 	std::cout << YELLOW << " INSERT RANGE " << WHITE << std::endl << std::endl;
 	{
-		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v1.empty() << std::endl << std::endl;
+		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | is v1 empty ? : " << v1.empty() << std::endl << std::endl;
 		v1.insert(v1.begin(), 4, "lorem ipsum");
 		v1.insert(v1.begin(), 2, "Neque porro quisquam");
 		v1.insert(v1.begin(), 0, "Quisque eleifend");
@@ -164,7 +164,7 @@ void test_insert( void )
 		}
 		std::cout << std::endl;
 		std::cout << std::endl;
-		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v1.empty() << std::endl;
+		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity()  << " | is v1 empty ? : " << v1.empty() << std::endl;
 	}
 }
 
@@ -179,7 +179,7 @@ void test_erase( void )
 	
 	std::cout << YELLOW << " ERASE SINGLE ELEMENT " << WHITE << std::endl << std::endl;
 	{
-		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v1.empty() << std::endl << std::endl;
+		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | is v1 empty ? : " << v1.empty() << std::endl << std::endl;
 		NM::vector<std::string>::iterator ret;
 		std::cout << RED << "BEFORE : " << WHITE;
 		NM::vector<std::string>::iterator it = v1.begin();
@@ -205,12 +205,12 @@ void test_erase( void )
 		}
 		std::cout << std::endl;
 		std::cout << std::endl;
-		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v1.empty() << std::endl;
+		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity()  << " | is v1 empty ? : " << v1.empty() << std::endl;
 	}
 	
 	std::cout << YELLOW << " ERASE RANGE " << WHITE << std::endl << std::endl;
 	{
-		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v1.empty() << std::endl << std::endl;
+		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity()  << " | is v1 empty ? : " << v1.empty() << std::endl << std::endl;
 		NM::vector<std::string>::iterator ret;
 		std::cout << RED << "BEFORE : " << WHITE;
 		NM::vector<std::string>::iterator it = v1.begin();
@@ -236,7 +236,7 @@ void test_erase( void )
 		}
 		std::cout << std::endl;
 		std::cout << std::endl;
-		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity() << " | max_size : " << v1.max_size() << " | is v1 empty ? : " << v1.empty() << std::endl;
+		std::cout << "v1 size : " << v1.size() << " | v1 capacity : " << v1.capacity()  << " | is v1 empty ? : " << v1.empty() << std::endl;
 	}
 }
 

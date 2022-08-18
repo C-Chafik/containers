@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_main.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
+/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 15:04:58 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/18 13:43:48 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/18 17:06:01 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,18 @@ void test_constructor( void )
 	
 	std::cout << YELLOW << " EMPTY CONSTRUCTOR " << WHITE << std::endl << std::endl;
 	NM::map<std::string, int> Map1;
-	std::cout << "Map1 size : " << Map1.size() << " | max_size : " << Map1.max_size() << " | is Map1 empty ? : " << Map1.empty() << std::endl;
+	std::cout << "Map1 size : " << Map1.size() << " | is Map1 empty ? : " << Map1.empty() << std::endl;
     std::cout << std::endl;
 
 	std::cout << YELLOW << " RANGE CONSTRUCTOR " << WHITE << std::endl << std::endl;
 	NM::map<std::string, int> tmp; tmp["Key1"] = 1; tmp["Key2"] = 2; tmp["Key3"] = 3; tmp["Key5"] = 5;
 	NM::map<std::string, int> Map2(tmp.begin(), tmp.end());
-	std::cout << "Map2 size : " << Map2.size() << " | max_size : " << Map1.max_size() <<  " | is Map2 empty ? : " << Map2.empty() << std::endl;
+	std::cout << "Map2 size : " << Map2.size() <<  " | is Map2 empty ? : " << Map2.empty() << std::endl;
     std::cout << std::endl;
 
 	std::cout << YELLOW << " COPY CONSTRUCTOR " << WHITE << std::endl << std::endl;
 	NM::map<std::string, int> Map3(Map2);
-	std::cout << "Map3 size : " << Map3.size() << " | max_size : " << Map1.max_size() << " | is Map3 empty ? : " << Map3.empty() << std::endl;
+	std::cout << "Map3 size : " << Map3.size() << " | is Map3 empty ? : " << Map3.empty() << std::endl;
 	std::cout << std::endl;
 }
 
@@ -129,7 +129,7 @@ void    test_insert( void )
 
     std::cout << YELLOW << " SINGLE ELEMENT INSERT " << WHITE << std::endl << std::endl;
 
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
+    std::cout << "Map size : " << Map.size() << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
     Map.insert(pair);
 	{
 		NM::map<std::string, int>::iterator it = Map.begin();
@@ -142,11 +142,11 @@ void    test_insert( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl;
+    std::cout << "Map size : " << Map.size()  << " | is Map empty ? : " << Map.empty() << std::endl;
 
     std::cout << YELLOW << " SINGLE ELEMENT WITH HINT INSERT " << WHITE << std::endl << std::endl;
 
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
+    std::cout << "Map size : " << Map.size()  << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
     pair = NM::make_pair("Key2", 2);
     Map.insert(Map.begin(), pair);
 	{
@@ -160,11 +160,11 @@ void    test_insert( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl;
+    std::cout << "Map size : " << Map.size()  << " | is Map empty ? : " << Map.empty() << std::endl;
 
     std::cout << YELLOW << " RANGE INSERT " << WHITE << std::endl << std::endl;
 
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
+    std::cout << "Map size : " << Map.size()  << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
     pair = NM::make_pair("Key2", 2);
     NM::map<std::string, int> tmp; tmp["Key1"] = 1; tmp["Key2"] = 2; tmp["Key3"] = 3; tmp["Key5"] = 5;
     Map.insert(tmp.begin(), tmp.end());
@@ -179,7 +179,7 @@ void    test_insert( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl;
+    std::cout << "Map size : " << Map.size() << " | is Map empty ? : " << Map.empty() << std::endl;
     std::cout << std::endl;
 	std::cout << std::endl;
 }
@@ -192,7 +192,7 @@ void    test_erase( void )
 
     std::cout << YELLOW << " SINGLE ELEMENT HINT ERASE " << WHITE << std::endl << std::endl;
 
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
+    std::cout << "Map size : " << Map.size()  << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
     Map.erase(Map.begin());
 	{
 		NM::map<int, int>::iterator it = Map.begin();
@@ -205,11 +205,11 @@ void    test_erase( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
+    std::cout << "Map size : " << Map.size()  << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
 
     std::cout << YELLOW << " SINGLE ELEMENT ERASE " << WHITE << std::endl << std::endl;
 
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
+    std::cout << "Map size : " << Map.size()  << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
     Map.erase(5);
 	{
 		NM::map<int, int>::iterator it = Map.begin();
@@ -222,7 +222,7 @@ void    test_erase( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl  << std::endl;
+    std::cout << "Map size : " << Map.size()  << " | is Map empty ? : " << Map.empty() << std::endl  << std::endl;
 
     std::cout << YELLOW << " RANGE ERASE " << WHITE << std::endl << std::endl;
 
@@ -230,7 +230,7 @@ void    test_erase( void )
 
     it++; it++; it++;
 
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
+    std::cout << "Map size : " << Map.size()  << " | is Map empty ? : " << Map.empty() << std::endl << std::endl;
     Map.erase(it, Map.end());
 	{
 		NM::map<int, int>::iterator it = Map.begin();
@@ -243,7 +243,7 @@ void    test_erase( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "Map size : " << Map.size() << " | max_size : " << Map.max_size() << " | is Map empty ? : " << Map.empty() << std::endl;
+    std::cout << "Map size : " << Map.size()  << " | is Map empty ? : " << Map.empty() << std::endl;
     std::cout << std::endl;
 }
 

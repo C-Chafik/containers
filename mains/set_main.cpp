@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_main.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
+/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:59:04 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/18 14:25:27 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/18 17:05:15 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,18 @@ void test_constructor( void )
 	
 	std::cout << YELLOW << " EMPTY CONSTRUCTOR " << WHITE << std::endl << std::endl;
 	NM::set<int> set1;
-	std::cout << "set1 size : " << set1.size() << " | max_size : " << set1.max_size() << " | is set1 empty ? : " << set1.empty() << std::endl;
+	std::cout << "set1 size : " << set1.size()  << " | is set1 empty ? : " << set1.empty() << std::endl;
     std::cout << std::endl;
 
 	std::cout << YELLOW << " RANGE CONSTRUCTOR " << WHITE << std::endl << std::endl;
 	NM::set<int> tmp; tmp.insert(10); tmp.insert(16540); tmp.insert(6610); tmp.insert(14560);
 	NM::set<int> set2(tmp.begin(), tmp.end());
-	std::cout << "set2 size : " << set2.size() << " | max_size : " << set2.max_size() <<  " | is set2 empty ? : " << set2.empty() << std::endl;
+	std::cout << "set2 size : " << set2.size()  <<  " | is set2 empty ? : " << set2.empty() << std::endl;
     std::cout << std::endl;
 
 	std::cout << YELLOW << " COPY CONSTRUCTOR " << WHITE << std::endl << std::endl;
 	NM::set<int> set3(set2);
-	std::cout << "set3 size : " << set3.size() << " | max_size : " << set3.max_size() << " | is set3 empty ? : " << set3.empty() << std::endl;
+	std::cout << "set3 size : " << set3.size()  << " | is set3 empty ? : " << set3.empty() << std::endl;
 	std::cout << std::endl;
 }
 
@@ -127,7 +127,7 @@ void    test_insert( void )
 
     std::cout << YELLOW << " SINGLE ELEMENT INSERT " << WHITE << std::endl << std::endl;
 
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl << std::endl;
+    std::cout << "set size : " << set.size() << " | is set empty ? : " << set.empty() << std::endl << std::endl;
     set.insert(10);
 	{
 		NM::set<int>::iterator it = set.begin();
@@ -140,11 +140,11 @@ void    test_insert( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl;
+    std::cout << "set size : " << set.size() << " | is set empty ? : " << set.empty() << std::endl;
 
     std::cout << YELLOW << " SINGLE ELEMENT WITH HINT INSERT " << WHITE << std::endl << std::endl;
 
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl << std::endl;
+    std::cout << "set size : " << set.size()  << " | is set empty ? : " << set.empty() << std::endl << std::endl;
     set.insert(set.begin(), 72);
 	{
 		NM::set<int>::iterator it = set.begin();
@@ -157,11 +157,11 @@ void    test_insert( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl;
+    std::cout << "set size : " << set.size() << " | is set empty ? : " << set.empty() << std::endl;
 
     std::cout << YELLOW << " RANGE INSERT " << WHITE << std::endl << std::endl;
 
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl << std::endl;
+    std::cout << "set size : " << set.size()  << " | is set empty ? : " << set.empty() << std::endl << std::endl;
     NM::set<int> tmp; tmp.insert(10); tmp.insert(16540); tmp.insert(6610); tmp.insert(14560);
     set.insert(tmp.begin(), tmp.end());
 	{
@@ -175,7 +175,7 @@ void    test_insert( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl;
+    std::cout << "set size : " << set.size()  << " | is set empty ? : " << set.empty() << std::endl;
     std::cout << std::endl;
 	std::cout << std::endl;
 }
@@ -188,7 +188,7 @@ void    test_erase( void )
 
     std::cout << YELLOW << " SINGLE ELEMENT HINT ERASE " << WHITE << std::endl << std::endl;
 
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl << std::endl;
+    std::cout << "set size : " << set.size() << " | is set empty ? : " << set.empty() << std::endl << std::endl;
     set.erase(set.begin());
 	{
 		NM::set<int>::iterator it = set.begin();
@@ -201,11 +201,11 @@ void    test_erase( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl << std::endl;
+    std::cout << "set size : " << set.size()  << " | is set empty ? : " << set.empty() << std::endl << std::endl;
 
     std::cout << YELLOW << " SINGLE ELEMENT ERASE " << WHITE << std::endl << std::endl;
 
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl << std::endl;
+    std::cout << "set size : " << set.size() << " | is set empty ? : " << set.empty() << std::endl << std::endl;
     set.erase(42);
 	{
 		NM::set<int>::iterator it = set.begin();
@@ -218,7 +218,7 @@ void    test_erase( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl  << std::endl;
+    std::cout << "set size : " << set.size()  << " | is set empty ? : " << set.empty() << std::endl  << std::endl;
 
     std::cout << YELLOW << " RANGE ERASE " << WHITE << std::endl << std::endl;
 
@@ -226,7 +226,7 @@ void    test_erase( void )
 
     it++; it++; it++;
 
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl << std::endl;
+    std::cout << "set size : " << set.size()  << " | is set empty ? : " << set.empty() << std::endl << std::endl;
     set.erase(it, set.end());
 	{
 		NM::set<int>::iterator it = set.begin();
@@ -239,7 +239,7 @@ void    test_erase( void )
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-    std::cout << "set size : " << set.size() << " | max_size : " << set.max_size() << " | is set empty ? : " << set.empty() << std::endl;
+    std::cout << "set size : " << set.size() << " | is set empty ? : " << set.empty() << std::endl;
     std::cout << std::endl;
 }
 

@@ -6,7 +6,7 @@
 /*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:49:52 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/17 17:03:28 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/18 17:11:10 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,8 +228,7 @@ namespace ft
                 }
                 _alloc.construct(position, val);
                 _end = _end + 1;
-                                
-                insert(position, 1, val);
+                
                 return position;
             }
 
