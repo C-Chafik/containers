@@ -1,6 +1,6 @@
-FT		= mains/map_main.cpp
+FT		= mains/set_main.cpp
 
-STL		= mains/map_main.cpp
+STL		= mains/set_main.cpp
 
 RM 			= rm -rf
 

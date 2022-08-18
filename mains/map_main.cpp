@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_main.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmarouf <cmarouf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmarouf <qatar75020@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 15:04:58 by cmarouf           #+#    #+#             */
-/*   Updated: 2022/08/17 20:49:05 by cmarouf          ###   ########.fr       */
+/*   Updated: 2022/08/18 13:43:48 by cmarouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,7 +333,151 @@ void    test_operator( void )
 
 void    	go_crasy( void )
 {
+
+    std::cout << REDD << " GO_CRASY " << WHITE << std::endl << std::endl;
+
+
+    std::cout << YELLOW << " TESTING SWAP " << WHITE << std::endl << std::endl;
     
+    NM::map<std::string, int> Map;
+    NM::map<std::string, int> Map2;
+
+    Map["Key1"] = 1;
+    Map["Key2"] = 2;
+    Map["Key3"] = 3;
+    Map["Key4"] = 4;
+    Map["Key5"] = 5;
+
+    Map2["lol1"] = 1;
+    Map2["lol2"] = 2;
+    Map2["lol3"] = 3;
+    Map2["lol4"] = 4;
+    Map2["lol5"] = 5;
+
+    std::cout << YELLOW << " MAP1 CONTENT  " << WHITE << std::endl << std::endl;
+    {
+		NM::map<std::string, int>::iterator it = Map.begin();
+		NM::map<std::string, int>::iterator ite = Map.end();
+
+		for ( ; it != ite ; it++ )
+		{
+			std::cout << it->first << " [" << it->second << "] : ";
+		}
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
+    std::cout << std::endl;
+    std::cout << YELLOW << " MAP2 CONTENT  " << WHITE << std::endl << std::endl;
+    {
+		NM::map<std::string, int>::iterator it = Map2.begin();
+		NM::map<std::string, int>::iterator ite = Map2.end();
+
+		for ( ; it != ite ; it++ )
+		{
+			std::cout << it->first << " [" << it->second << "] : ";
+		}
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
+    std::cout << std::endl;
+    std::cout << YELLOW << " SWAPPING " << WHITE << std::endl << std::endl;
+    NM::swap(Map, Map2);
+    std::cout << YELLOW << " MAP1 CONTENT  " << WHITE << std::endl << std::endl;
+    {
+		NM::map<std::string, int>::iterator it = Map.begin();
+		NM::map<std::string, int>::iterator ite = Map.end();
+
+		for ( ; it != ite ; it++ )
+		{
+			std::cout << it->first << " [" << it->second << "] : ";
+		}
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
+    std::cout << std::endl;
+    std::cout << YELLOW << " MAP2 CONTENT  " << WHITE << std::endl << std::endl;
+    {
+		NM::map<std::string, int>::iterator it = Map2.begin();
+		NM::map<std::string, int>::iterator ite = Map2.end();
+
+		for ( ; it != ite ; it++ )
+		{
+			std::cout << it->first << " [" << it->second << "] : ";
+		}
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
+    std::cout << std::endl;
+
+    std::cout << YELLOW << " TESTING MAP WITH A CUSTOM KEY COMPARE  " << WHITE << std::endl << std::endl;
+
+    NM::map<std::string, int, ft::greater<std::string> > Map3;
+
+    Map3.insert(NM::pair<std::string, int>("Key1", 14));
+    Map3.insert(NM::pair<std::string, int>("Key654", 11234));
+    Map3.insert(NM::pair<std::string, int>("Keyuyi1", 1334));
+    Map3.insert(NM::pair<std::string, int>("Key5as4D1", 1204));
+    Map3.insert(NM::pair<std::string, int>("Kedsa5y1", 8714));
+    Map3.insert(NM::pair<std::string, int>("Key56asd1", 68714));
+
+    std::cout << YELLOW << " CUSTOM MAP CONTENT  " << WHITE << std::endl << std::endl;
+    {
+		NM::map<std::string, int>::iterator it = Map3.begin();
+		NM::map<std::string, int>::iterator ite = Map3.end();
+
+		for ( ; it != ite ; it++ )
+		{
+			std::cout << it->first << " [" << it->second << "] : ";
+		}
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
+    std::cout << std::endl;
+
+    std::cout << YELLOW << " STANDARD MAP CONTENT  " << WHITE << std::endl << std::endl;
+
+    NM::map<std::string, int> Map4;
+
+    Map4.insert(NM::pair<std::string, int>("Key1", 14));
+    Map4.insert(NM::pair<std::string, int>("Key654", 11234));
+    Map4.insert(NM::pair<std::string, int>("Keyuyi1", 1334));
+    Map4.insert(NM::pair<std::string, int>("Key5as4D1", 1204));
+    Map4.insert(NM::pair<std::string, int>("Kedsa5y1", 8714));
+    Map4.insert(NM::pair<std::string, int>("Key56asd1", 68714));
+     {
+		NM::map<std::string, int>::iterator it = Map4.begin();
+		NM::map<std::string, int>::iterator ite = Map4.end();
+
+		for ( ; it != ite ; it++ )
+		{
+			std::cout << it->first << " [" << it->second << "] : ";
+		}
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
+    std::cout << std::endl;
+
+    std::cout << YELLOW << " SEARCHING ELEMENT IN THE CUSTOM MAP  " << WHITE << std::endl << std::endl;
+
+    std::cout << "Searching for the Key1 [" << Map3.find("Key1")->first  << "]" << std::endl;
+    std::cout << "Searching for the lower_bound [" << Map3.lower_bound("Key1")->first  << "]" << std::endl;
+    std::cout << "Searching for the upper_bound [" << Map3.upper_bound("Key1")->first  << "]" << std::endl;
+    std::cout << "Searching for the Key1 Counter [" << Map3.count("Key1")  << "]" << std::endl;
+
+    std::cout << YELLOW << " SEARCHING ELEMENT THATS DOESNT EXIST IN THE CUSTOM MAP  " << WHITE << std::endl << std::endl;
+
+    std::cout << "Searching for a non existable value " << std::endl;
+    if (Map3.find("Keywerwer1") == Map3.end())
+        std::cout << " This find doesnt exist ! " << std::endl;
+    std::cout << "Searching for non existable lower_bound " << std::endl;
+    if (Map3.find("Keywerwer1") == Map3.end())
+        std::cout << " This lower bound doesnt exist ! " << std::endl;
+    std::cout << "Searching for the  non existable upper_bound " << std::endl;
+    if (Map3.upper_bound("Kweqweqwewqewqeqwey1") == Map3.end())
+        std::cout << " This upper bound doesnt exist ! " << std::endl;
+    std::cout << "Searching for the non existable Counter [" << Map3.count("Keqweqweqweey1")  << "]" << std::endl;
+
+    std::cout << "END TEST " << std::endl;
 }
 
 int main( void )
